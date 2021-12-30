@@ -51,7 +51,8 @@ public class User {
     @Column(name = "role_id")
     private List<String> roles = new ArrayList<>();
 
-//    @ManyToMany(cascade = CascadeType.MERGE)
-//    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-//    private Set<Role> roles;
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
+    @JoinColumn(name = "userLoan_id")
+    private List<LoanDetails> loanDetails = new ArrayList<>();
+
 }

@@ -1,0 +1,13 @@
+package com.userssecurity.autenticsecurityusersdemo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class AutenticsecurityusersdemoApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(AutenticsecurityusersdemoApplication.class, args);
+	}
+
+}

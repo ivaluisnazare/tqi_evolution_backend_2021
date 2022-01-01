@@ -8,5 +8,5 @@ import org.springframework.data.repository.query.Param;
 public interface UserRepository extends JpaRepository<User,Integer> {
     @Query("SELECT e FROM User e JOIN FETCH e.roles WHERE e.email= (:email)")
     public User findByEmail(@Param("email") String email);
-    boolean existsByUsername(String email);
+    boolean existsByEmail(String email);
 }

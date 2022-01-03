@@ -23,7 +23,7 @@ public class SecurityDatabaseService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(email);
         }
-        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+        Set<GrantedAuthority> authorities = new HashSet<>();
         user.getRoles().forEach(role -> {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
         });

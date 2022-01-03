@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+import java.time.LocalDate;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +50,11 @@ public class User {
     @Column(length = 100)
     private Double portionAmount;
 
+    @Column(nullable = false)
+    private Integer monthsToPay;
 
+    @Column(nullable = false)
+    private LocalDate payDay;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "tab_user_roles", joinColumns = @JoinColumn(name = "user_id"))

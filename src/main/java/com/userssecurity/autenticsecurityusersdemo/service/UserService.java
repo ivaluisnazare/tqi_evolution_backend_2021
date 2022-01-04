@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -19,7 +21,9 @@ public class UserService{
     public void createUser(User user){
         String pass = user.getPassword();
         user.setPassword(encoder.encode(pass));
-        user.setPayDay(user.getPayDay().plusMonths(user.getMonthsToPay()));
+        LocalDate localDate = LocalDate.now();
+        user.setDayOfRequest(localDate);
+        user.setPayDay(user.getDayOfRequest().plusMonths(user.getMonthsToPay()));
         user.setTotalToPay(user.getLoanAmount()*(Math.pow(1+user.getFeesCharged(), user.getNumberOfInstallments())));
         user.setPortionAmount(user.getTotalToPay()/user.getNumberOfInstallments());
         repository.save(user);

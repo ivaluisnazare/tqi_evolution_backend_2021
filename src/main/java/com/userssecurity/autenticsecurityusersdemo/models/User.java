@@ -50,6 +50,8 @@ public class User {
     @Column(length = 100)
     private Double portionAmount;
 
+    private LocalDate dayOfRequest;
+
     @Column(nullable = false)
     private Integer monthsToPay;
 

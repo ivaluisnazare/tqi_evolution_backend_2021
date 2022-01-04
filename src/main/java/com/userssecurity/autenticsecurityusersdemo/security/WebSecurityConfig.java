@@ -37,10 +37,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/managers").hasAnyRole("MANAGERS")
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/users").hasAnyRole("USERS")
-                    .anyRequest().authenticated().and().formLogin().disable();
-                http.csrf().disable()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);      // Don't use this configuration in a production environment ...
-                http.headers().frameOptions().disable();
+                    .anyRequest().authenticated().and().httpBasic();
+        http.csrf().disable();
+        // Don't use this configuration in a production environment ...
+        http.headers().frameOptions().disable();
     }
     }
 

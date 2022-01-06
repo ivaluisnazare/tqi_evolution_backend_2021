@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+
 @Entity
 @Data
 @Builder
@@ -19,19 +21,41 @@ public class LoanDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private Integer id;
 
-    @Column(length = 50, nullable = false)
-    private String name;
+    @Column(length = 20, nullable = false)
+    private String email;
 
-    @CPF
-    @Column(nullable = false)
-    private String cpf;
+    @Column(length = 40, unique = true)
+    private String code;
 
-    @Column(length = 8, nullable = false)
-    private String rg;
+    @Column(length = 30)
+    private Double wage;
 
-    @Column(length = 50, nullable = false)
-    private String address;
+    @Column(length = 50)
+    private Double loanAmount;
+
+    @Column(length = 50)
+    private Double feesCharged;
+
+    @Column(length = 20)
+    private Integer numberOfInstallments;
+
+    @Column(length = 100)
+    private Double totalToPay;
+
+    @Column(length = 100)
+    private Double portionAmount;
+
+    @Column
+    private LocalDate dayOfRequest;
+
+    @Column
+    private Integer monthsToPay;
+
+    @Column
+    private LocalDate payDay;
+
+
 
 }

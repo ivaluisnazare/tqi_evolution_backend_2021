@@ -33,8 +33,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                     .antMatchers(HttpMethod.POST,"/login").permitAll()
                 .antMatchers(HttpMethod.POST,"/users").permitAll()
-                .antMatchers(HttpMethod.GET,"/users/{email}").hasAnyRole("USERS")
-                .antMatchers("/managers").hasAnyRole("MANAGERS")
+                    .antMatchers(HttpMethod.POST,"/details").hasAnyRole("MANAGERS")
+                    .antMatchers(HttpMethod.PUT,"/details/update/{id}").hasAnyRole("MANAGERS")
+                    .antMatchers(HttpMethod.GET,"/details/{email}").hasAnyRole("USERS")
+                    .antMatchers(HttpMethod.GET,"/details/code/{id}").hasAnyRole("USERS")
+
+
+
+
+                    .antMatchers(HttpMethod.GET,"/users/findAll/{email}").hasAnyRole("USERS")
+                    .antMatchers("/managers").hasAnyRole("MANAGERS")
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/users").hasAnyRole("USERS")
                     .anyRequest().authenticated().and().httpBasic();

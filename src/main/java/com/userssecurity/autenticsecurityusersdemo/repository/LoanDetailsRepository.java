@@ -11,9 +11,8 @@ import java.util.Optional;
 
 public interface LoanDetailsRepository extends JpaRepository<LoanDetails, Long> {
 
-
     @Query("SELECT e FROM User e JOIN FETCH e.roles WHERE e.email= (:email)")
-    public User findByEmail(@Param("email") String email);
+    public LoanDetails findByEmail(@Param("email") String email);
     public Optional<LoanDetails> findById(@Param("id") Integer id);
     boolean existsById(String email);
 

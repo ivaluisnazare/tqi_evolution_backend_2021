@@ -37,17 +37,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.PUT,"/details/update/{id}").hasAnyRole("MANAGERS")
                     .antMatchers(HttpMethod.GET,"/details/{email}").hasAnyRole("USERS")
                     .antMatchers(HttpMethod.GET,"/details/code/{id}").hasAnyRole("USERS")
+                    .antMatchers(HttpMethod.DELETE,"/details/delete/{id}").hasAnyRole("MANAGERS")
 
 
 
 
-                    .antMatchers(HttpMethod.GET,"/users/findAll/{email}").hasAnyRole("USERS")
                     .antMatchers("/managers").hasAnyRole("MANAGERS")
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/users").hasAnyRole("USERS")
                     .anyRequest().authenticated().and().httpBasic();
         http.csrf().disable();
-        // Don't use this configuration in a production environment ...
+        // Don't use that configuration in a production environment ...
         http.headers().frameOptions().disable();
     }
     }

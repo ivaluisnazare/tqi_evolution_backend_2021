@@ -11,7 +11,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Data
 @Entity
 @AllArgsConstructor
@@ -44,17 +43,9 @@ public class User {
     @Column(length = 50, nullable = false)
     private String address;
 
-
-
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "tab_user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role_id", nullable = false)
     private List<String> roles = new ArrayList<>();
-
-
-//    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
-//    @JoinColumn(name = "userLoan_id")
-//    private List<LoanDetails> loanDetails;
-//    private List<LoanDetails> loanDetails = new ArrayList<>();
 
 }

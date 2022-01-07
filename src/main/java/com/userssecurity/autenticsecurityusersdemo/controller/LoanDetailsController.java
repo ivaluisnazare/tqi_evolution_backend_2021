@@ -5,6 +5,7 @@ import com.userssecurity.autenticsecurityusersdemo.service.DetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
@@ -35,6 +36,12 @@ public class LoanDetailsController {
     public void putRequest(@PathVariable @Valid Integer id, @RequestBody LoanDetails loanDetails){
         detailsService.putRequest(id, loanDetails);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public void DeleteLoanDetailsById(@PathVariable @Valid Integer id){
+        detailsService.DeleteLoanDetailsById(id);
+    }
+
 
     }
 

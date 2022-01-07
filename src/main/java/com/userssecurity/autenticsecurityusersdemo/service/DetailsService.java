@@ -63,8 +63,21 @@ public class DetailsService {
             return new ResponseEntity<LoanDetails>(loanDetailsPut, HttpStatus.OK);
         } else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    public ResponseEntity<Object> DeleteLoanDetailsById(Integer id) {
+        Optional<LoanDetails> loanDetails = repository.findById(id);
+        if(loanDetails.isPresent()){
+            repository.delete(loanDetails.get());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     }
-}
+
+
+
 
 

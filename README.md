@@ -24,6 +24,7 @@ No projeto optei por adotar duas tabelas: User, com as entradas do usário clien
 Como seugue, entrada JSON, no Postman, Authorization type No Auth,  com livre permissão de acesso, POST USER,
 
 '''
+
 {
 "email": "helo@gmail.com",
 "password": "helo0133",
@@ -33,6 +34,7 @@ Como seugue, entrada JSON, no Postman, Authorization type No Auth,  com livre pe
 "rg": "56444333",
 "address":"Rua das congonhas"
 }
+
 '''
  
 * Variáves de emtrada referentes aos detalhes do empréstimo, LoanDetails:

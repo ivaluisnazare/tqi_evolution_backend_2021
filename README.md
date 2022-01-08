@@ -35,7 +35,7 @@ Como seugue, entrada JSON, no Postman, Authorization type No Auth,  com livre pe
 
 ```
  
-* Variáves de emtrada referentes aos detalhes do empréstimo, LoanDetails:
+* Variáves de entrada referentes aos detalhes do empréstimo, LoanDetails:
   * email;
   * código, único;
   * renda;
@@ -74,4 +74,7 @@ São dois os grupos do conjunto de saída, quais são: um grupo com id e código
   * valor da parcela;
   * número de parcelas;
   * data de vencimento da primeira parcela.
+
+Os resultados da saída pode ser encontrado em [Ver documentação Postman] (https://documenter.getpostman.com/view/18038992/UVXerHSH).
+
 

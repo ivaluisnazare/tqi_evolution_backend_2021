@@ -22,7 +22,6 @@ No projeto optei por adotar duas tabelas: User, com as entradas do usário clien
 Como seugue, entrada JSON, no Postman, Authorization type No Auth,  com livre permissão de acesso, POST USER,
 
 ```
-
 {
 "email": "helo@gmail.com",
 "password": "helo0133",
@@ -32,7 +31,6 @@ Como seugue, entrada JSON, no Postman, Authorization type No Auth,  com livre pe
 "rg": "56444333",
 "address":"Rua das congonhas"
 }
-
 ```
  
 * Variáves de entrada referentes aos detalhes do empréstimo, LoanDetails:
@@ -56,6 +54,15 @@ Como é mostrado abaixo, código de entrada, com restrição de acesso principal
 "numberOfInstallments":30,
 "monthsToPay":2
 }     
+{
+"email": "helo@gmail.com",
+"code":"111103",
+"wage":2251.51,
+"loanAmount":18000,
+"feesCharged":0.056,
+"numberOfInstallments":50,
+"monthsToPay":2
+}
 ```
 
 São dois os grupos do conjunto de saída, quais são: um grupo com id e código do empréstimo, único para cada empréstimo, e outro com detalhes do empéstiomo, com código específico.
@@ -64,6 +71,20 @@ São dois os grupos do conjunto de saída, quais são: um grupo com id e código
  * código do empréstimo;
  * valor do empréstimo;
  * número de empréstimo.
+
+```[
+    [
+        "111003",
+        13000.0,
+        30
+    ],
+    [
+        "111103",
+        18000.0,
+        50
+    ]
+]
+```
 
 * Variáveis de saída referentes aos detalhes do empréstimo, também com restrição de acesso ao usuário logado:
   * email;
@@ -75,6 +96,21 @@ São dois os grupos do conjunto de saída, quais são: um grupo com id e código
   * número de parcelas;
   * data de vencimento da primeira parcela.
 
-Os resultados da saída pode ser encontrado em [Ver documentação Postman] (https://documenter.getpostman.com/view/18038992/UVXerHSH).
+```
+[
+    [
+        "helo@gmail.com",
+        "111003",
+        2251.51,
+        13000.0,
+        20929.294580728438,
+        697.6431526909479,
+        30,
+        "2022-03-08"
+    ]
+]
+```
+
+[Ver documentação Postman] (https://documenter.getpostman.com/view/18038992/UVXerHSH).
 
 

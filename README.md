@@ -6,7 +6,39 @@ O projeto consiste em uma API, cuja entrada é dados de cliente, que solicita um
 
 
 
-1. Dependências:
-- Spring Security;
-- h2;
-- Lombok;
+* Dependências:
+  * Spring Security;
+  * h2;
+  * Lombok.
+
+No projeto optei por adotar duas tabelas: User, com as entradas do usário cliente, e LoanDetails, com detalhes do pedido de empréstimo do cliented, não relacionadas, fiz isso devido a fulcionalidade de autenticação e restrição de acesso a URL do Spring Security.
+
+* Variáveis de entrada referentes ao usuário, cliente, tabela User:
+  * email;
+  * senha;
+  * nome;
+  * cpf válido, hibernate @CPF;
+  * rg;
+  * encereço completo.
+ 
+* Variáves de emtrada referentes aos detalhes do empréstimo, LoanDetails:
+  * email;
+  * código, único;
+  * renda;
+  * valor do empréstimo;
+  * taxa;
+  * número de parcelas;
+  * número de meses, dado para pagar a primeira parcela a partir do dia da requisição e suposta aprovação do empréstiomo.
+
+São dois os grupos do conjunto de saída, quais são: um grupo com id e código do empréstimo, único para cada empréstimo, e outro com detalhes do empéstiomo, com código específico.
+
+* Variáveis de saída referentes aos detalhes do empréstimo:
+  * email;
+  * código do empréstiomo;
+  * renda;
+  * valor do empréstimo;
+  * o montante a ser pago pelo valor do empréstimo, incluido juros compostos;
+  * valor da parcela;
+  * número de parcelas;
+  * data de vencimento da primeira parcela.
+

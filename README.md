@@ -20,6 +20,20 @@ No projeto optei por adotar duas tabelas: User, com as entradas do usário clien
   * cpf válido, hibernate @CPF;
   * rg;
   * encereço completo.
+
+Como seugue, entrada JSON, no Postman, Authorization type No Auth,  com livre permissão de acesso, POST USER,
+
+'''
+{
+"email": "helo@gmail.com",
+"password": "helo0133",
+"roles": ["USERS"],
+"name": "Heloisa Nazaré",
+"cpf": "11822101557",
+"rg": "56444333",
+"address":"Rua das congonhas"
+}
+'''
  
 * Variáves de emtrada referentes aos detalhes do empréstimo, LoanDetails:
   * email;

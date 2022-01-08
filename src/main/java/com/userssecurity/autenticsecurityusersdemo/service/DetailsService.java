@@ -30,7 +30,7 @@ public class DetailsService {
     }
 
     public List getQuery(String email){
-        return entityManager.createQuery("SELECT e.id, e.code FROM LoanDetails e  WHERE e.email= (:email)")
+        return entityManager.createQuery("SELECT e.email, e.code FROM LoanDetails e  WHERE e.email = (:email)")
                 .setParameter("email", email)
                 .setMaxResults(10)
                 .getResultList();
@@ -60,7 +60,7 @@ public class DetailsService {
             loanDetailsPut.setTotalToPay(loanDetailsPut.getLoanAmount()*(Math.pow(1 + loanDetailsPut.getFeesCharged(), loanDetailsPut.getNumberOfInstallments())));
             loanDetailsPut.setPortionAmount(loanDetailsPut.getTotalToPay() / loanDetailsPut.getNumberOfInstallments());
             repository.save(loanDetailsPut);
-            return new ResponseEntity<LoanDetails>(loanDetailsPut, HttpStatus.OK);
+            return new ResponseEntity<LoanDetails>(loanDetailsPut, HttpStatus.NO_CONTENT);
         } else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -69,12 +69,11 @@ public class DetailsService {
         Optional<LoanDetails> loanDetails = repository.findById(id);
         if(loanDetails.isPresent()){
             repository.delete(loanDetails.get());
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
     }
 
 

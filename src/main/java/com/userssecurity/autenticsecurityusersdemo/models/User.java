@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
 
-
-import java.time.LocalDate;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +14,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private Integer id;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20, nullable = false, unique = true)
     private String email;
 
     @Column(length = 100, nullable = false)
@@ -47,5 +44,10 @@ public class User {
     @CollectionTable(name = "tab_user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role_id", nullable = false)
     private List<String> roles = new ArrayList<>();
+
+
+//    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
+//    @JoinColumn(name = "userDetails_id")
+//    private List<UserDetails> userDetails = new ArrayList<>();
 
 }

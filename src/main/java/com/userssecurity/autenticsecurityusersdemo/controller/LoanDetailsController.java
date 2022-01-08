@@ -4,8 +4,10 @@ import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import com.userssecurity.autenticsecurityusersdemo.service.DetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
@@ -24,24 +26,28 @@ public class LoanDetailsController {
     }
 
     @GetMapping("/{email}")
+    @ResponseStatus(HttpStatus.OK)
+
     public List getQuery(@PathVariable @Valid String email){
         return detailsService.getQuery(email);
     }
+
     @GetMapping("/code/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public List getCodeQuery(@PathVariable @Valid Integer id){
         return detailsService.getCodeQuery(id);
     }
 
     @PutMapping("/update/{id}")
-    public void putRequest(@PathVariable @Valid Integer id, @RequestBody LoanDetails loanDetails){
-        detailsService.putRequest(id, loanDetails);
+    public ResponseEntity<LoanDetails> putRequest(@PathVariable @Valid Integer id, @RequestBody LoanDetails loanDetails){
+        return detailsService.putRequest(id, loanDetails);
     }
 
     @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void DeleteLoanDetailsById(@PathVariable @Valid Integer id){
         detailsService.DeleteLoanDetailsById(id);
     }
-
 
     }
 

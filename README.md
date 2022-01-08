@@ -1,10 +1,8 @@
 # tqi_evolution_backend_2021
-tqi evolution backend desafio.
+tqi evolution backend desafio. 
 
-### Descrição 
-O projeto consiste em uma API, cuja entrada é dados de cliente, que solicita um determinado empréstimo, e saida é informações desse mesmo cliente e dos seus empréstimos solicitados. Sendo assim, opitei por utilizar a ferramenta spring security, para autenticação do usuário e administrador; o banco de dados, em mémória, h2; assim como outras dependências, ver pom.xml. É válido salientar, que utilizei, por opção, juros compostos na definição do montante a ser pago pelo cliente, em função do número, pré-definido, de parcelas e valor do emprestimo solicitado. 
-
-
+#### Descrição 
+O projeto consiste em uma REST API , ativa localmente, cuja entrada é dados de cliente, que solicita um determinado empréstimo, e saida é informações desse mesmo cliente e dos seus empréstimos solicitados. Sendo assim, opitei por utilizar a ferramenta spring security, para autenticação do usuário e administrador; o banco de dados, em mémória, h2; assim como outras dependências, ver pom.xml. É válido salientar, que utilizei, por opção, juros compostos na definição do montante a ser pago pelo cliente, em função do número, pré-definido, de parcelas e valor do emprestimo solicitado. 
 
 * Dependências:
   * Spring Security;
@@ -30,7 +28,7 @@ Como seugue, entrada JSON, no Postman, Authorization type No Auth,  com livre pe
 "password": "helo0133",
 "roles": ["USERS"],
 "name": "Heloisa Nazaré",
-"cpf": "11822101557",
+"cpf": "insert valid cpf",
 "rg": "56444333",
 "address":"Rua das congonhas"
 }
@@ -46,9 +44,28 @@ Como seugue, entrada JSON, no Postman, Authorization type No Auth,  com livre pe
   * número de parcelas;
   * número de meses, dado para pagar a primeira parcela a partir do dia da requisição e suposta aprovação do empréstiomo.
 
+Como é mostrado abaixo, código de entrada, com restrição de acesso principal ao administrador, Authorization type Basic Auth,
+
+```  
+{
+"email": "helo@gmail.com",
+"code":"111003",
+"wage":2251.51,
+"loanAmount":13000,
+"feesCharged":0.016,
+"numberOfInstallments":30,
+"monthsToPay":2
+}     
+```
+
 São dois os grupos do conjunto de saída, quais são: um grupo com id e código do empréstimo, único para cada empréstimo, e outro com detalhes do empéstiomo, com código específico.
 
-* Variáveis de saída referentes aos detalhes do empréstimo:
+* Variáveis de saída referentes à lista de empréstimos solicitados pelo cliente, com restrição de acesso ao usuário logado:
+ * código do empréstimo;
+ * valor do empréstimo;
+ * número de empréstimo.
+
+* Variáveis de saída referentes aos detalhes do empréstimo, também com restrição de acesso ao usuário logado:
   * email;
   * código do empréstiomo;
   * renda;

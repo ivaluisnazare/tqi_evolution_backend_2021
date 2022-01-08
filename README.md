@@ -53,7 +53,9 @@ Como é mostrado abaixo, código de entrada, com restrição de acesso principal
 "feesCharged":0.016,
 "numberOfInstallments":30,
 "monthsToPay":2
-}     
+}  
+```
+```
 {
 "email": "helo@gmail.com",
 "code":"111103",
@@ -65,9 +67,9 @@ Como é mostrado abaixo, código de entrada, com restrição de acesso principal
 }
 ```
 
-São dois os grupos do conjunto de saída, quais são: um grupo com id e código do empréstimo, único para cada empréstimo, e outro com detalhes do empéstiomo, com código específico.
+São dois os grupos do conjunto de saída, , com restrição de acesso ao usuário logado, quais são: um grupo com id e código do empréstimo, único para cada empréstimo, e outro com detalhes do empéstiomo, com código específico.
 
-* Variáveis de saída referentes à lista de empréstimos solicitados pelo cliente, com restrição de acesso ao usuário logado:
+* Variáveis de saída referentes à lista de empréstimos solicitados pelo cliente:
  * código do empréstimo;
  * valor do empréstimo;
  * número de empréstimo.
@@ -86,7 +88,7 @@ São dois os grupos do conjunto de saída, quais são: um grupo com id e código
 ]
 ```
 
-* Variáveis de saída referentes aos detalhes do empréstimo, também com restrição de acesso ao usuário logado:
+* Variáveis de saída referentes aos detalhes do empréstimo:
   * email;
   * código do empréstiomo;
   * renda;

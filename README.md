@@ -5,7 +5,8 @@ O projeto consiste em um modelo REST API , ativo localmente, cuja entrada são d
 
 ### 2 . Desenvolvimento e Resultados
 
-No projeto optei por adotar duas tabelas: User, com as entradas do usuário cliente, e LoanDetails, com detalhes do pedido de empréstimo do cliente, não relacionadas. Fiz isso devido a funcionalidade de autenticação e restrição de acesso a URL do Spring Security.
+No projeto optei por adotar duas tabelas: User, com as entradas do usuário cliente, e LoanDetails, com detalhes do pedido de empréstimo do cliente, não relacionadas. Fiz isso devido a funcionalidade de autenticação e restrição de acesso o URL do Spring Security.
+
 Foi feito acesso irrestrito a URL de cadastro de cliente, que, por sua vez, cadastra, também, os administradores, povoando, dessa forma, a tabela de usuários, com email único, referência ao usuário cadastrado e administrador. 
 A tabela User tem como colunas as variáveis de entrada que caracterizam o usuário cliente e administrador, que são:
   * email;
@@ -113,7 +114,8 @@ Quando com o id correspondente ao código único da solicitação, no exemplo ``
     ]
 ].
 ```
-[Ver documentação Postman] (https://documenter.getpostman.com/view/18038992/UVXerHSH).
+
+Não suficiente as saídas, é possível, com o código, atualizar e deletar os pedidos de empréstimo, [Ver documentação Postman] (https://documenter.getpostman.com/view/18038992/UVXerHSH).
 
 ### 3. Conclusão 
 

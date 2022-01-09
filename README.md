@@ -119,4 +119,6 @@ Quando com o id correspondente ao código único da solicitação, no exemplo ``
 
 O modelo mostra-se relevante com a função de, com os dados de um cliente, cadastrar suas solicitações de empréstimo, detalhando-os em quantidade e forma. É relevante também que o modelo carece de mais segurança, sendo suficiente como registro de apresentação à proposta de produção, onde as restrições e permissões de usuários, cliente e administrador, satisfazerem as dependências dessa proposta. É valido salientar, por fim, que o modelo serve de protótipo a implementações relativas a armazenamento e caracterização dos dados e na segurança dos mesmos.
 
+:hammer: Ivã Nazaré
+
 

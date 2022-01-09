@@ -121,6 +121,6 @@ Não suficiente as saídas, é possível, com o código, atualizar e deletar os 
 
 O modelo mostra-se relevante em desempenhar a função de, com os dados de um cliente, cadastrar suas solicitações de empréstimo, detalhando-as em quantidade e forma, além de as atualizar e deletar. É relevante também que o modelo carece de mais segurança, sendo suficiente como registro de apresentação à proposta de produção, onde as restrições e permissões de usuários, cliente e administrador, satisfazerem as dependências dessa proposta. É valido salientar, por fim, que o modelo serve de protótipo a implementações relativas a armazenamento e caracterização dos dados, testes e segurança.
 
-:hammer: Ivã Nazaré
+:hammer: _Ivã Nazaré_
 
 

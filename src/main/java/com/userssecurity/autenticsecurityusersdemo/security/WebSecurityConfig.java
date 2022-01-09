@@ -1,6 +1,5 @@
 package com.userssecurity.autenticsecurityusersdemo.security;
 
-import com.userssecurity.autenticsecurityusersdemo.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,21 +9,13 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandler;
-
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-
-
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-
-
 
     @Bean
     public BCryptPasswordEncoder encoder(){
@@ -33,7 +24,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-
         http
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
@@ -45,14 +35,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/details/{email}").hasAnyRole("USERS")
                 .antMatchers(HttpMethod.GET,"/details/code/{id}").hasAnyRole("USERS")
                 .antMatchers(HttpMethod.DELETE,"/details/delete/{id}").hasAnyRole("MANAGERS")
-
                 .antMatchers("/managers").hasAnyRole("MANAGERS")
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/users").hasAnyRole("USERS")
                 .anyRequest().authenticated().and().httpBasic();
-        http.csrf().disable();
         // Don't use that configuration in a production environment ...
-        http.headers().frameOptions().disable();
+        http
+                .csrf()
+                .disable();
+        http
+                .headers()
+                .frameOptions()
+                .disable();
     }
     }
 

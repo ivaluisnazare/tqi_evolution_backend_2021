@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +43,4 @@ public class User {
     @CollectionTable(name = "tab_user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role_id", nullable = false)
     private List<String> roles = new ArrayList<>();
-
-
-//    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
-//    @JoinColumn(name = "userDetails_id")
-//    private List<UserDetails> userDetails = new ArrayList<>();
-
 }

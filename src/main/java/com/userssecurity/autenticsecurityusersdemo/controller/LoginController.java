@@ -1,6 +1,5 @@
 package com.userssecurity.autenticsecurityusersdemo.controller;
 
-
 import com.userssecurity.autenticsecurityusersdemo.dtos.Login;
 import com.userssecurity.autenticsecurityusersdemo.dtos.Section;
 import com.userssecurity.autenticsecurityusersdemo.models.User;
@@ -24,7 +23,6 @@ public class LoginController {
         User user = repository.findByEmail(login.getEmail());
         if (user != null){
             boolean passwordOK = encoder.matches(login.getPassword(), user.getPassword());
-
             if (!passwordOK){
                 throw new RuntimeException("Invalid password for email: " + login.getEmail());
             }
@@ -36,7 +34,4 @@ public class LoginController {
             throw new RuntimeException("Error trying to login");
         }
     }
-
-
-
 }

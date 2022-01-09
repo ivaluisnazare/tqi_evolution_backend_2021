@@ -30,7 +30,7 @@ public class DetailsService {
     }
 
     public List getQuery(String email){
-        return entityManager.createQuery("SELECT e.email, e.code FROM LoanDetails e  WHERE e.email = (:email)")
+        return entityManager.createQuery("SELECT e.code, e.loanAmount, e.numberOfInstallments FROM LoanDetails e  WHERE e.email = (:email)")
                 .setParameter("email", email)
                 .setMaxResults(10)
                 .getResultList();

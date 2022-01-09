@@ -1,15 +1,11 @@
 # tqi_evolution_backend_2021
-#### Descrição 
-O projeto consiste em um modelo REST API , ativo localmente, cuja entrada é dados de cliente, que solicita um determinado empréstimo, e saida é informações desse mesmo cliente e dos seus empréstimos solicitados. Sendo assim, opitei por utilizar a ferramenta spring security, para autenticação do usuário e administrador; o banco de dados, em mémória, h2; assim como outras dependências, ver pom.xml. É válido salientar, que utilizei, o Postman para inserção e saídas dos dados e, por opção, juros compostos na definição do montante a ser pago pelo cliente, em função do número, pré-definido, de parcelas e valor do emprestimo solicitado. 
+### 1 . Descrição 
+O projeto consiste em um modelo REST API , ativo localmente, cuja entrada são dados de cliente, que solicita um determinado empréstimo, e saída é informações desse mesmo cliente e dos seus empréstimos solicitados. Sendo assim, optei por utilizar a ferramenta spring security, para autenticação do usuário e administrador; o banco de dados, em memória, h2; assim como outras dependências, ver pom.xml. É válido salientar, que utilizei, o Postman para inserção e saídas dos dados e, por opção, juros compostos na definição do montante a ser pago pelo cliente, em função do número, predefinido, de parcelas e valor do empréstimo solicitado.
 
-* Dependências:
-  * Spring Security;
-  * h2;
-  * Lombok.
+### 2 . Desenvolvimento e Resultados
 
-No projeto optei por adotar duas tabelas: User, com as entradas do usário cliente, e LoanDetails, com detalhes do pedido de empréstimo do cliente, não relacionadas. Fiz isso devido a funcionalidade de autenticação e restrição de acesso a URL do Spring Security.
-
-Foi feito acesso irrestrito a URL de cadastro de cliente, que, por sua vez, cadastra também os administradores, povoando, dessa forma, a tabela de usários, com emeil unico, referência ao usuário cadastrado e administrador. A tabela User tem como colunas as variáveis de entrada que caracterizam o usuário cliente e administrador, que são:
+No projeto optei por adotar duas tabelas: User, com as entradas do usuário cliente, e LoanDetails, com detalhes do pedido de empréstimo do cliente, não relacionadas. Fiz isso devido a funcionalidade de autenticação e restrição de acesso a URL do Spring Security.
+Foi feito acesso irrestrito a URL de cadastro de cliente, que, por sua vez, cadastra, também, os administradores, povoando, dessa forma, a tabela de usuários, com email único, referência ao usuário cadastrado e administrador. A tabela User tem como colunas as variáveis de entrada que caracterizam o usuário cliente e administrador, que são:
 
   * email;
   * senha;
@@ -18,9 +14,9 @@ Foi feito acesso irrestrito a URL de cadastro de cliente, que, por sua vez, cada
   * cpf válido, hibernate @CPF;
   * rg;
   * encereço completo,
- onde "roles" são as permissões, em lista, de usuário e/ou administrador.
+onde "roles" são as permissões, em lista, de usuário e/ou administrador.
 
-Como seugue, entrada JSON, no Postman, Authorization type No Auth,  com livre permissão de acesso, POST USER,
+Como seugue, entrada JSON, no Postman, com Authorization type No Auth, livre permissão de acesso, POST USER,
 
 ```
 {
@@ -33,18 +29,17 @@ Como seugue, entrada JSON, no Postman, Authorization type No Auth,  com livre pe
 "address":"Rua das congonhas"
 }
 ```
- 
-* Variáves de entrada referentes aos detalhes do empréstimo, LoanDetails:
+
+O modelo impõe ser o acesso a URL para o detalhamento do empréstimo solicitado, pelo usuário cliente, restrito ao usuário administrador, responsável por popular a tabela LoanDetails com as entradas:
   * email;
   * código, único;
   * renda;
   * valor do empréstimo;
   * taxa;
   * número de parcelas;
-  * número de meses, dado para pagar a primeira parcela a partir do dia da requisição e suposta aprovação do empréstiomo.
+  * número de meses, dado para pagar a primeira parcela, a partir do dia da requisição e suposta aprovação do empréstimo.
 
-Como é mostrado abaixo, código de entrada, com restrição de acesso principal ao administrador, Authorization type Basic Auth,
-
+Como é mostrado abaixo, código de entrada, com Authorization type Basic Auth,
 ```  
 {
 "email": "helo@gmail.com",
@@ -68,12 +63,15 @@ Como é mostrado abaixo, código de entrada, com restrição de acesso principal
 }
 ```
 
-São dois os grupos do conjunto de saída, , com restrição de acesso ao usuário logado, quais são: um grupo com id e código do empréstimo, único para cada empréstimo, e outro com detalhes do empéstiomo, com código específico.
+São duas as URLs no conjunto de saídas, com restrição de acesso ao usuário cliente logado, quais são: lista de empréstimo do usuário, e outra com detalhes do empéstimo e seu código específico.
 
-* Variáveis de saída referentes à lista de empréstimos solicitados pelo cliente:
+A URL, lista de empéstimos, segue com as especificações de cada empréstimo:
+
  * código do empréstimo;
  * valor do empréstimo;
- * número de empréstimo.
+ * número de parcelas do emprestimo.
+
+Como pode ser observado abaixo, as saídas para as entradas, propostas anteriomente, mostram ter o cliente logado com *helo@gmail.com* dois pedidos de emprestimos, cada um com seu respectivo codigo, valor e números de parcelas.
 
 ```[
     [

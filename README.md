@@ -65,9 +65,9 @@ Como é mostrado abaixo, código de entrada, com Authorization type Basic Auth.
 }
 ```
 
-São dois os URLs no conjunto de saídas, com restrição de acesso ao usuário cliente logado, quais são: lista de empréstimo do usuário, e outra com detalhes do empéstimo e seu código específico.
+São dois os URLs no conjunto de saídas, com restrição de acesso ao usuário cliente logado, quais são: lista de empréstimo do usuário, e outra com detalhes da solicitação do empéstimo e seu código específico.
 
-O URL, lista de empéstimos, segue com as especificações de cada empréstimo:
+O URL, lista de solicitações, segue com as especificações de cada empréstimo:
 
  * código do empréstimo;
  * valor do empréstimo;

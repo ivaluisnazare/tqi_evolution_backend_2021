@@ -1,21 +1,24 @@
 # tqi_evolution_backend_2021
 #### Descrição 
-O projeto consiste em uma REST API , ativa localmente, cuja entrada é dados de cliente, que solicita um determinado empréstimo, e saida é informações desse mesmo cliente e dos seus empréstimos solicitados. Sendo assim, opitei por utilizar a ferramenta spring security, para autenticação do usuário e administrador; o banco de dados, em mémória, h2; assim como outras dependências, ver pom.xml. É válido salientar, que utilizei, por opção, juros compostos na definição do montante a ser pago pelo cliente, em função do número, pré-definido, de parcelas e valor do emprestimo solicitado. 
+O projeto consiste em um modelo REST API , ativo localmente, cuja entrada é dados de cliente, que solicita um determinado empréstimo, e saida é informações desse mesmo cliente e dos seus empréstimos solicitados. Sendo assim, opitei por utilizar a ferramenta spring security, para autenticação do usuário e administrador; o banco de dados, em mémória, h2; assim como outras dependências, ver pom.xml. É válido salientar, que utilizei, o Postman para inserção e saídas dos dados e, por opção, juros compostos na definição do montante a ser pago pelo cliente, em função do número, pré-definido, de parcelas e valor do emprestimo solicitado. 
 
 * Dependências:
   * Spring Security;
   * h2;
   * Lombok.
 
-No projeto optei por adotar duas tabelas: User, com as entradas do usário cliente, e LoanDetails, com detalhes do pedido de empréstimo do cliented, não relacionadas, fiz isso devido a fulcionalidade de autenticação e restrição de acesso a URL do Spring Security.
+No projeto optei por adotar duas tabelas: User, com as entradas do usário cliente, e LoanDetails, com detalhes do pedido de empréstimo do cliente, não relacionadas. Fiz isso devido a funcionalidade de autenticação e restrição de acesso a URL do Spring Security.
 
-* Variáveis de entrada referentes ao usuário, cliente, tabela User:
+Foi feito acesso irrestrito a URL de cadastro de cliente, que, por sua vez, cadastra também os administradores, povoando, dessa forma, a tabela de usários, com emeil unico, referência ao usuário cadastrado e administrador. A tabela User tem como colunas as variáveis de entrada que caracterizam o usuário cliente e administrador, que são:
+
   * email;
   * senha;
+  * roles
   * nome;
   * cpf válido, hibernate @CPF;
   * rg;
-  * encereço completo.
+  * encereço completo,
+ onde "roles" são as permissões, em lista, de usuário e/ou administrador.
 
 Como seugue, entrada JSON, no Postman, Authorization type No Auth,  com livre permissão de acesso, POST USER,
 

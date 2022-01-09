@@ -1,7 +1,7 @@
 # Desafio tqi_evolution_backend_2021
 
 ### 1 . Descrição 
-O projeto consiste em um modelo REST API , ativo localmente, cuja entrada são dados de cliente, que solicita um determinado empréstimo, e saída é informações desse mesmo cliente e dos seus empréstimos solicitados. Sendo assim, optei por utilizar a ferramenta spring security, para autenticação do usuário cliente e administrador; o banco de dados, em memória, h2; assim como outras dependências, ver *pom.xml*. É válido salientar que utilizei o Postman para inserção e saídas na análise das variáveis e, por opção, juros compostos na definição do montante a ser pago pelo cliente, em função do número, predefinido, de parcelas e valor do empréstimo solicitado.
+O projeto consiste em um modelo REST API , ativo localmente, cuja entrada são dados de cliente, que solicita um determinado empréstimo, e saída é informações desse mesmo cliente e dos seus empréstimos solicitados. Sendo assim, optei por utilizar a ferramenta spring security, para autenticação do usuário cliente e administrador; o banco de dados, em memória, h2; assim como outras dependências, ver *pom.xml*. É válido salientar que utilizei o Postman para inserção e saídas na análise das variáveis e, por opção, juros compostos na definição do montante a ser pago pelo cliente, em função do número, predefinido, de parcelas, taxa de juros, no momento da solicitação, e valor do pedido de empréstimo.
 
 ### 2 . Desenvolvimento e Resultados
 

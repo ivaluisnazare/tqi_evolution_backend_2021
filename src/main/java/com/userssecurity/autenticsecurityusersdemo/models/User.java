@@ -43,4 +43,5 @@ public class User {
     @CollectionTable(name = "tab_user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role_id", nullable = false)
     private List<String> roles = new ArrayList<>();
+
 }

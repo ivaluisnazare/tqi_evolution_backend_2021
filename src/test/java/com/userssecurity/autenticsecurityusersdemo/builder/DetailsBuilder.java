@@ -1,5 +1,6 @@
 package com.userssecurity.autenticsecurityusersdemo.builder;
 
+import com.userssecurity.autenticsecurityusersdemo.dtos.DetailsDTO;
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

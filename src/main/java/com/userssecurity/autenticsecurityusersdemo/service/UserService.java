@@ -21,8 +21,8 @@ public class UserService{
 
 
     public User createUser(User user) {
-//        String pass = user.getPassword();
-//        user.setPassword(encoder.encode(pass));
+        String pass = user.getPassword();
+        user.setPassword(encoder.encode(pass));
         repository.save(user);
         return user;
     }}

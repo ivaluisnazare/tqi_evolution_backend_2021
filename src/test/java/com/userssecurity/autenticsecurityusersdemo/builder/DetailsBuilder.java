@@ -1,15 +1,17 @@
 package com.userssecurity.autenticsecurityusersdemo.builder;
 
-import com.userssecurity.autenticsecurityusersdemo.dtos.DetailsDTO;
-
+import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.time.LocalDate;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class DetailsBuilder {
 
     @Builder.Default
@@ -48,8 +50,9 @@ public class DetailsBuilder {
     @Builder.Default
     private LocalDate payDay = LocalDate.now().plusMonths(3);
 
-    public DetailsDTO toDetailsDTO(){
-        return new DetailsDTO(id, email, code, wage, loanAmount, feesCharged, numberOfInstallments,
-                totalToPay, portionAmount,dayOfRequest,monthsToPay,payDay);
+
+    public LoanDetails toDetails(){
+        return new LoanDetails(id, email, code, wage,loanAmount, feesCharged,numberOfInstallments,totalToPay,
+                portionAmount,dayOfRequest,monthsToPay,payDay);
     }
 }

@@ -19,10 +19,13 @@ public class UserService{
     private PasswordEncoder encoder;
     EntityManager entityManager;
 
-    public void createUser(User user) {
-        String pass = user.getPassword();
-        user.setPassword(encoder.encode(pass));
-        repository.save(user);}}
+
+    public User createUser(User user) {
+//        String pass = user.getPassword();
+//        user.setPassword(encoder.encode(pass));
+        repository.save(user);
+        return user;
+    }}
 
 
 

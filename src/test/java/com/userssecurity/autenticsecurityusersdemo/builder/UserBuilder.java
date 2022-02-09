@@ -2,6 +2,7 @@ package com.userssecurity.autenticsecurityusersdemo.builder;
 
 import com.userssecurity.autenticsecurityusersdemo.dtos.UserDTO;
 
+import com.userssecurity.autenticsecurityusersdemo.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -41,8 +42,8 @@ public class UserBuilder {
         @Builder.Default
         private List<String> roles = new ArrayList<>(Arrays.asList("USER"));
 
-        public UserDTO toUserDTO(){
-                return new UserDTO(id, email, password, name, cpf, rg, address, roles);
+        public User toUserDTO(){
+                return new User(id, email, password, name, cpf, rg, address, roles);
         }
 
 

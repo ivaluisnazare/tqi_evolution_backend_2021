@@ -47,5 +47,7 @@ public class DetailsDTO {
     private Integer monthsToPay;
 
     @NotNull
-    private LocalDate payDay;}
+    private LocalDate payDay;
+
+}
 

@@ -1,5 +1,6 @@
 package com.userssecurity.autenticsecurityusersdemo.models;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class LoanDetails {
     private Integer id;
 
     @Column(length = 20, nullable = false)
+    @NotNull
     private String email;
 
     @Column(length = 40, unique = true)
@@ -46,6 +48,7 @@ public class LoanDetails {
     private Double portionAmount;
 
     @Column
+
     private LocalDate dayOfRequest;
 
     @Column

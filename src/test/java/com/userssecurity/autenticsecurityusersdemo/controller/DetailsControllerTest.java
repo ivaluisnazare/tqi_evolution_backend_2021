@@ -1,11 +1,12 @@
 package com.userssecurity.autenticsecurityusersdemo.controller;
 
 import com.userssecurity.autenticsecurityusersdemo.builder.DetailsBuilder;
-import com.userssecurity.autenticsecurityusersdemo.dtos.DetailsDTO;
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import com.userssecurity.autenticsecurityusersdemo.repository.LoanDetailsRepository;
 import com.userssecurity.autenticsecurityusersdemo.service.DetailsService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -22,8 +23,6 @@ import static org.mockito.Mockito.lenient;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.http.MediaType;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-
 
 @ExtendWith(MockitoExtension.class)
 public class DetailsControllerTest {
@@ -50,6 +49,7 @@ public class DetailsControllerTest {
                 .setViewResolvers((s, locale) -> new MappingJackson2JsonView())
                 .build();
     }
+
     @Test
     void whenPOSTIsCalledThenADetailsIsCreated() throws Exception {
 
@@ -64,7 +64,7 @@ public class DetailsControllerTest {
     }
 
     @Test
-    void whenPOSTIsCalledWithoutRequiredFieldThenAnErrorIsReturned() throws Exception {
+    void whenPOSTDetailsIsCalledWithoutRequiredFieldThenAnErrorIsReturned() throws Exception {
 
         LoanDetails loanDetails = DetailsBuilder.builder().build().toDetails();
         if (loanDetails.getEmail() == null) {
@@ -76,14 +76,24 @@ public class DetailsControllerTest {
     }
 
     @Test
-    void whenGETIsCalledWithValidEmailThenOkStatusIsReturned() throws Exception {
+    void whenGETDetailsEmailIsCalledWithValidEmailThenOkStatusIsReturned() throws Exception {
 
         LoanDetails loanDetails = DetailsBuilder.builder().build().toDetails();
         lenient().when(loanDetailsRepository.findByEmail(loanDetails.getEmail())).thenReturn(loanDetails);
-
         mockMvc.perform(MockMvcRequestBuilders.get(DETAILS_API_URL_PATH + "/" + loanDetails.getEmail())
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isOk());
+    }
+
+    @Test
+    void whenGETDetailsEmailIsCalledWithoutRegisteredNameThenNotFoundStatusIsReturned() throws Exception {
+
+        LoanDetails loanDetails = DetailsBuilder.builder().build().toDetails();
+        if (loanDetails.getEmail() == null){
+        Mockito.when(loanDetailsRepository.findByEmail(loanDetails.getEmail())).thenThrow(Mockito.mock(DataAccessException.class));
+        mockMvc.perform(MockMvcRequestBuilders.get(DETAILS_API_URL_PATH + "/" + loanDetails.getEmail())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());}
     }
 
 }

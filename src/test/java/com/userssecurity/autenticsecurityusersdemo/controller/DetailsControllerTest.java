@@ -3,6 +3,7 @@ package com.userssecurity.autenticsecurityusersdemo.controller;
 import com.userssecurity.autenticsecurityusersdemo.builder.DetailsBuilder;
 import com.userssecurity.autenticsecurityusersdemo.dtos.DetailsDTO;
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
+import com.userssecurity.autenticsecurityusersdemo.repository.LoanDetailsRepository;
 import com.userssecurity.autenticsecurityusersdemo.service.DetailsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
@@ -11,12 +12,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.Mock;
 import org.mockito.InjectMocks;
 import org.junit.jupiter.api.BeforeEach;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import static com.userssecurity.autenticsecurityusersdemo.utils.JsonConvertionUtils.asJsonString;
-import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.lenient;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.http.MediaType;
@@ -38,6 +39,9 @@ public class DetailsControllerTest {
 
     @InjectMocks
     private LoanDetailsController loanDetailsController;
+
+    @Mock
+    private LoanDetailsRepository loanDetailsRepository;
 
     @BeforeEach
     void setUp() {
@@ -68,9 +72,18 @@ public class DetailsControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(asJsonString(loanDetails)))
                             .andExpect(status().isBadRequest());
-
         }
-
-
     }
+
+    @Test
+    void whenGETIsCalledWithValidEmailThenOkStatusIsReturned() throws Exception {
+
+        LoanDetails loanDetails = DetailsBuilder.builder().build().toDetails();
+        lenient().when(loanDetailsRepository.findByEmail(loanDetails.getEmail())).thenReturn(loanDetails);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(DETAILS_API_URL_PATH + "/" + loanDetails.getEmail())
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk());
+    }
+
 }

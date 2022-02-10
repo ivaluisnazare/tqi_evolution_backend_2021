@@ -1,18 +1,14 @@
 package com.userssecurity.autenticsecurityusersdemo.builder;
 
-import com.userssecurity.autenticsecurityusersdemo.dtos.DetailsDTO;
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.time.LocalDate;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class DetailsBuilder {
 
     @Builder.Default

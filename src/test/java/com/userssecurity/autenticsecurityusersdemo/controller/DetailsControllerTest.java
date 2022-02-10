@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import static com.userssecurity.autenticsecurityusersdemo.utils.JsonConvertionUtils.asJsonString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.lenient;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.http.MediaType;
@@ -91,9 +92,21 @@ public class DetailsControllerTest {
         LoanDetails loanDetails = DetailsBuilder.builder().build().toDetails();
         if (loanDetails.getEmail() == null){
         Mockito.when(loanDetailsRepository.findByEmail(loanDetails.getEmail())).thenThrow(Mockito.mock(DataAccessException.class));
-        mockMvc.perform(MockMvcRequestBuilders.get(DETAILS_API_URL_PATH + "/" + loanDetails.getEmail())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());}
+            mockMvc.perform(MockMvcRequestBuilders.get(DETAILS_API_URL_PATH + "/" + loanDetails.getEmail())
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNotFound());
+        }
     }
+
+    @Test
+    void whenDELETEDetailsIsCalledWithValidIdThenNoContentStatusIsReturned() throws Exception {
+
+        LoanDetails loanDetails = DetailsBuilder.builder().build().toDetails();
+        if (loanDetails.getId()== null){
+        doNothing().when(loanDetailsController).DeleteLoanDetailsById(loanDetails.getId());
+        mockMvc.perform(MockMvcRequestBuilders.delete(DETAILS_API_URL_PATH  + "/" + loanDetails.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }}
 
 }

@@ -35,8 +35,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class DetailsControllerTest {
 
     private static final String DETAILS_API_URL_PATH = "/details";
-    private static final long VALID_DETAILS_ID = 1L;
-    private static final long INVALID_DETAILS_ID = 2l;
 
     private MockMvc mockMvc;
 

@@ -15,8 +15,6 @@ import java.util.List;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class LoanDetailsController {
 
-
-
     private DetailsService detailsService;
 
     @PostMapping

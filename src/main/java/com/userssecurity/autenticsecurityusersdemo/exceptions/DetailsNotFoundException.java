@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class DetailsNotFoundException extends Exception{
 
     public DetailsNotFoundException(Integer id) {
-        super(String.format("Beer with id %s not found in the system.", id));
+        super(String.format("Details with id %s not found in the system.", id));
+    }
+    public DetailsNotFoundException(String email) {
+        super(String.format("Details with email %s not found in the system.", email));
     }
 }

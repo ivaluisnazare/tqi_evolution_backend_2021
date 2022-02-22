@@ -20,8 +20,6 @@ import static org.mockito.Mockito.lenient;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.http.MediaType;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.hamcrest.core.Is.is;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -81,7 +79,7 @@ public class DetailsControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get(DETAILS_API_URL_PATH + "/" + loanDetails.getEmail())
                         .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isOk());
+                .andExpect(status().isOk());
 
     }}
 

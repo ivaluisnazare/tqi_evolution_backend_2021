@@ -25,7 +25,6 @@ public class LoanDetailsController {
 
     @GetMapping("/{email}")
     @ResponseStatus(HttpStatus.OK)
-
     public List getQuery(@PathVariable @Valid String email){
         return detailsService.getQuery(email);
     }

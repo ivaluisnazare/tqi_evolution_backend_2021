@@ -1,5 +1,6 @@
 package com.userssecurity.autenticsecurityusersdemo.builder;
 
+import com.sun.istack.NotNull;
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +16,7 @@ public class DetailsBuilder {
     private Integer id = 1;
 
     @Builder.Default
-    private String email = "mongret@hotmail.com";
+    private String email = "mongret@gmail.com";
 
     @Builder.Default
     private String code = "000102";

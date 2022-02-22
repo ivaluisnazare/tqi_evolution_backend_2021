@@ -4,7 +4,6 @@ import com.userssecurity.autenticsecurityusersdemo.builder.DetailsBuilder;
 import com.userssecurity.autenticsecurityusersdemo.dtos.DetailsDTO;
 import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsNotFoundException;
 import com.userssecurity.autenticsecurityusersdemo.mapper.DetailsMapper;
-import com.userssecurity.autenticsecurityusersdemo.mapper.UserMapper;
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import com.userssecurity.autenticsecurityusersdemo.repository.LoanDetailsRepository;
 import com.userssecurity.autenticsecurityusersdemo.service.DetailsService;
@@ -22,13 +21,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import static com.userssecurity.autenticsecurityusersdemo.utils.JsonConvertionUtils.asJsonString;
-
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.lenient;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.http.MediaType;
-
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -63,52 +60,20 @@ public class DetailsControllerTest {
         mockMvc.perform(post(DETAILS_API_URL_PATH)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(details)))
-                        .andExpect(MockMvcResultMatchers.status().is(201))
                         .andExpect(status().isCreated());
     }
 
     @Test
     void whenPOSTDetailsIsCalledWithoutRequiredFieldThenAnErrorIsReturned() throws Exception {
 
-        LoanDetails loanDetails = DetailsBuilder.builder().build().toDetails();
-        if (loanDetails.getEmail() == null) {
-            mockMvc.perform(post(DETAILS_API_URL_PATH)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(asJsonString(loanDetails)))
-                            .andExpect(status().isBadRequest());
+        LoanDetails loanDetails= DetailsBuilder.builder().build().toDetails();
+        loanDetails.setEmail(null);
+
+        mockMvc.perform(post(DETAILS_API_URL_PATH)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(loanDetails.getEmail())))
+                        .andExpect(status().isBadRequest());
         }
     }
 
-    @Test
-    void whenGETDetailsEmailIsCalledWithValidEmailThenOkStatusIsReturned() throws Exception {
 
-        LoanDetails loanDetails = DetailsBuilder.builder().build().toDetails();
-        lenient().when(loanDetailsRepository.findByEmail(loanDetails.getEmail())).thenReturn(loanDetails);
-        mockMvc.perform(MockMvcRequestBuilders.get(DETAILS_API_URL_PATH + "/" + loanDetails.getEmail())
-                        .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isOk());
-    }
-
-    @Test
-    void whenGETDetailsEmailIsCalledWithoutRegisteredNameThenNotFoundStatusIsReturned() throws Exception {
-
-        LoanDetails loanDetails = DetailsBuilder.builder().build().toDetails();
-        if (loanDetails.getEmail() == null){
-            Mockito.when(loanDetailsRepository.findByEmail(loanDetails.getEmail())).thenThrow(Mockito.mock(DetailsNotFoundException.class));
-                mockMvc.perform(MockMvcRequestBuilders.get(DETAILS_API_URL_PATH + "/" + loanDetails.getEmail())
-                            .contentType(MediaType.APPLICATION_JSON))
-                            .andExpect(status().isNotFound());
-        }
-    }
-
-    @Test
-    void whenDELETEDetailsIsCalledWithValidIdThenNoContentStatusIsReturned() throws Exception {
-
-        LoanDetails loanDetails = DetailsBuilder.builder().build().toDetails();
-        if(loanDetails == null){
-            doNothing().when(detailsService.DeleteLoanDetailsById(loanDetails.getId()));
-                mockMvc.perform(MockMvcRequestBuilders.delete(DETAILS_API_URL_PATH  + "/" + loanDetails.getId())
-                                .contentType(MediaType.APPLICATION_JSON))
-                                .andExpect(status().isNoContent());
-    }}
-}

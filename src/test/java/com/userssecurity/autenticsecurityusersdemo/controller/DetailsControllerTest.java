@@ -1,10 +1,12 @@
 package com.userssecurity.autenticsecurityusersdemo.controller;
 
 import com.userssecurity.autenticsecurityusersdemo.builder.DetailsBuilder;
+import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsNotFoundException;
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import com.userssecurity.autenticsecurityusersdemo.repository.LoanDetailsRepository;
 import com.userssecurity.autenticsecurityusersdemo.service.DetailsService;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -28,7 +30,8 @@ public class DetailsControllerTest {
     private static final String DETAILS_API_URL_PATH = "/details";
     private static final String DETAILS_ID_API_URL_PATH = "/details/code";
     private static final String DETAILS_DELETE_ID_API_URL_PATH = "/details/delete";
-    private static final long INVALID_BEER_ID = 2;
+    private static final String DETAILS_DELETE_BY_ID_API_URL_PATH = "/detailsBy/delete";
+    private static final Integer INVALID_BEER_ID = 3;
 
     private MockMvc mockMvc;
 
@@ -43,6 +46,7 @@ public class DetailsControllerTest {
 
     @BeforeEach
     void setUp() {
+
         mockMvc = MockMvcBuilders.standaloneSetup(loanDetailsController)
                 .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
                 .setViewResolvers((s, locale) -> new MappingJackson2JsonView())
@@ -83,7 +87,6 @@ public class DetailsControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get(DETAILS_API_URL_PATH + "/" + loanDetails.getEmail())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-
     }
 
     @Test
@@ -98,6 +101,15 @@ public class DetailsControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+    @Test
+    void whenDELETEIsCalledWithInvalidIdThenNotFoundStatusIsReturned() throws Exception {
+
+        lenient().doThrow(DetailsNotFoundException.class).when(detailsService).deleteById(INVALID_BEER_ID);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(DETAILS_DELETE_BY_ID_API_URL_PATH + "/" + INVALID_BEER_ID)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 }
 
 

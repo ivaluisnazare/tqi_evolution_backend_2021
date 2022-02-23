@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -85,9 +84,9 @@ public class DetailsService {
         return foundDetails;
     }
 
-    public void  deleteById(Integer id) throws DetailsNotFoundException{
+    public void deleteById(Integer id) throws DetailsNotFoundException{
         verifyIfExist(id);
-        repository.findById(id);
+        repository.deleteById(id.longValue());
     }
 
     private LoanDetails verifyIfExist(Integer id) throws DetailsNotFoundException{

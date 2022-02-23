@@ -1,5 +1,6 @@
 package com.userssecurity.autenticsecurityusersdemo.controller;
 
+import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsNotFoundException;
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import com.userssecurity.autenticsecurityusersdemo.service.DetailsService;
 import lombok.AllArgsConstructor;
@@ -45,6 +46,15 @@ public class LoanDetailsController {
     public void DeleteLoanDetailsById(@PathVariable @Valid Integer id){
         detailsService.DeleteLoanDetailsById(id);
     }
+
+    @DeleteMapping("/deleteBy/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Integer id) throws DetailsNotFoundException {
+        detailsService.deleteById(id);
+    }
+
+
+
 
     }
 

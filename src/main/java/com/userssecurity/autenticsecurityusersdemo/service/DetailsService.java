@@ -1,6 +1,8 @@
 package com.userssecurity.autenticsecurityusersdemo.service;
 
 import java.util.List;
+
+import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsNotFoundException;
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import com.userssecurity.autenticsecurityusersdemo.repository.LoanDetailsRepository;
 import lombok.AllArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -74,6 +77,22 @@ public class DetailsService {
         }
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    public LoanDetails findById(Integer id) throws DetailsNotFoundException {
+        LoanDetails foundDetails = repository.findById(id)
+                .orElseThrow(() -> new DetailsNotFoundException(id));
+        return foundDetails;
+    }
+
+    public void  deleteById(Integer id) throws DetailsNotFoundException{
+        verifyIfExist(id);
+        repository.findById(id);
+    }
+
+    private LoanDetails verifyIfExist(Integer id) throws DetailsNotFoundException{
+        return repository.findById(id)
+                .orElseThrow(() -> new DetailsNotFoundException(id));
     }
     }
 

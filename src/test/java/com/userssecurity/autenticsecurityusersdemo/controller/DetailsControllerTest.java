@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import static com.userssecurity.autenticsecurityusersdemo.utils.JsonConvertionUtils.asJsonString;
-import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.http.MediaType;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,6 +26,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class DetailsControllerTest {
 
     private static final String DETAILS_API_URL_PATH = "/details";
+    private static final String DETAILS_ID_API_URL_PATH = "/details/code";
+    private static final String DETAILS_DELETE_ID_API_URL_PATH = "/details/delete";
+    private static final long INVALID_BEER_ID = 2;
 
     private MockMvc mockMvc;
 
@@ -81,7 +84,21 @@ public class DetailsControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-    }}
+    }
+
+    @Test
+    void whenDELETEIsCalledWithValidIdThenNoContentStatusIsReturned() throws Exception {
+
+        LoanDetails loanDetails = DetailsBuilder.builder().build().toDetails();
+
+        lenient().doNothing().when(detailsService).deleteById(loanDetails.getId());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(DETAILS_DELETE_ID_API_URL_PATH + "/" + loanDetails.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
+}
 
 
 

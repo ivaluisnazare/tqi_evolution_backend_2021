@@ -6,7 +6,6 @@ import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import com.userssecurity.autenticsecurityusersdemo.repository.LoanDetailsRepository;
 import com.userssecurity.autenticsecurityusersdemo.service.DetailsService;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -21,6 +20,7 @@ import static com.userssecurity.autenticsecurityusersdemo.utils.JsonConvertionUt
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.http.MediaType;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -78,9 +78,9 @@ public class DetailsControllerTest {
     }
 
         @Test
-        void whenGETIsCalledWithValidEmailThenOkStatusIsReturned() throws Exception {
+        void whenGETQUERYIsCalledWithValidEmailThenOkStatusIsReturned() throws Exception {
 
-        LoanDetails loanDetails= DetailsBuilder.builder().build().toDetails();
+        LoanDetails loanDetails = DetailsBuilder.builder().build().toDetails();
 
         lenient().when(loanDetailsRepository.findByEmail(loanDetails.getEmail())).thenReturn(loanDetails);
 

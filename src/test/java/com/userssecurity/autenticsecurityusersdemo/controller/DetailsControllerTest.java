@@ -1,6 +1,7 @@
 package com.userssecurity.autenticsecurityusersdemo.controller;
 
 import com.userssecurity.autenticsecurityusersdemo.builder.DetailsBuilder;
+import com.userssecurity.autenticsecurityusersdemo.builder.LoanDetailsBuilder;
 import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsNotFoundException;
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import com.userssecurity.autenticsecurityusersdemo.repository.LoanDetailsRepository;
@@ -20,7 +21,6 @@ import static com.userssecurity.autenticsecurityusersdemo.utils.JsonConvertionUt
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.http.MediaType;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class DetailsControllerTest {
 
     private static final String DETAILS_API_URL_PATH = "/details";
-    private static final String DETAILS_ID_API_URL_PATH = "/details/code";
+    private static final String DETAILS_FIND_BY_API_URL_PATH = "/details/findBy";
     private static final String DETAILS_DELETE_ID_API_URL_PATH = "/details/delete";
     private static final String DETAILS_DELETE_BY_ID_API_URL_PATH = "/detailsBy/delete";
     private static final Integer INVALID_BEER_ID = 3;
@@ -87,6 +87,18 @@ public class DetailsControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get(DETAILS_API_URL_PATH + "/" + loanDetails.getEmail())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void whenDetailsIsCalledWithoutValidIdThenNoFoundStatusIsReturned() throws Exception {
+
+        LoanDetails loanDetails = LoanDetailsBuilder.builder().build().toDetails();
+
+        lenient().when(detailsService.findById(loanDetails.getId())).thenThrow(DetailsNotFoundException.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(DETAILS_FIND_BY_API_URL_PATH + "/" + loanDetails.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test

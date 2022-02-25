@@ -36,6 +36,11 @@ public class LoanDetailsController {
         return detailsService.getCodeQuery(id);
     }
 
+    @GetMapping("/findBy/{id}")
+    public LoanDetails findById(Integer id) throws DetailsNotFoundException{
+        return detailsService.findById(id);
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<LoanDetails> putRequest(@PathVariable @Valid Integer id, @RequestBody LoanDetails loanDetails){
         return detailsService.putRequest(id, loanDetails);
@@ -52,9 +57,6 @@ public class LoanDetailsController {
     public void deleteById(@PathVariable Integer id) throws DetailsNotFoundException {
         detailsService.deleteById(id);
     }
-
-
-
 
     }
 

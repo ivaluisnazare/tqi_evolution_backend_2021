@@ -79,9 +79,9 @@ public class DetailsService {
     }
 
     public LoanDetails findById(Integer id) throws DetailsNotFoundException {
-        LoanDetails foundDetails = repository.findById(id)
+        LoanDetails details = repository.findById(id)
                 .orElseThrow(() -> new DetailsNotFoundException(id));
-        return foundDetails;
+        return details;
     }
 
     public void deleteById(Integer id) throws DetailsNotFoundException{
@@ -93,6 +93,7 @@ public class DetailsService {
         return repository.findById(id)
                 .orElseThrow(() -> new DetailsNotFoundException(id));
     }
+
     }
 
 

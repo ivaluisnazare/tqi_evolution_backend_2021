@@ -21,6 +21,9 @@ import static com.userssecurity.autenticsecurityusersdemo.utils.JsonConvertionUt
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.http.MediaType;
+
+import java.util.Optional;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -81,7 +84,7 @@ public class DetailsControllerTest {
 
         LoanDetails loanDetails = DetailsBuilder.builder().build().toDetails();
 
-        lenient().when(loanDetailsRepository.findByEmail(loanDetails.getEmail())).thenReturn(loanDetails);
+        lenient().when(loanDetailsRepository.findByEmail(loanDetails.getEmail())).thenReturn(Optional.empty());
 
         mockMvc.perform(MockMvcRequestBuilders.get(DETAILS_API_URL_PATH + "/" + loanDetails.getEmail())
                         .contentType(MediaType.APPLICATION_JSON))

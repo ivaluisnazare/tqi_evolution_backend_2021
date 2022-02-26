@@ -21,14 +21,8 @@ public class LoanDetailsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void postUser(@RequestBody LoanDetails loanDetails) {
-        detailsService.createDetails(loanDetails);
-    }
-
-    @PostMapping("/test")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createLoanDetails(@RequestBody LoanDetails loanDetails) throws DetailsAlreadyRegisteredException{
-        detailsService.createDetails(loanDetails);
+    public LoanDetails postUser(@RequestBody LoanDetails loanDetails) throws DetailsAlreadyRegisteredException {
+        return detailsService.createDetails(loanDetails);
     }
 
     @GetMapping("/{email}")

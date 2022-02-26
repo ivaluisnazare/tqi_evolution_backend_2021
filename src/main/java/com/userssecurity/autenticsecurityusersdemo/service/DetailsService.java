@@ -23,19 +23,13 @@ public class DetailsService {
     private LoanDetailsRepository repository;
     EntityManager entityManager;
 
-    public LoanDetails createDetails(LoanDetails loanDetails) {
+    public LoanDetails createDetails(LoanDetails loanDetails) throws DetailsAlreadyRegisteredException {
+        verifyIfAlreadyRegistered(loanDetails.getEmail());
         LocalDate localDate = LocalDate.now();
         loanDetails.setDayOfRequest(localDate);
         loanDetails.setPayDay(loanDetails.getDayOfRequest().plusMonths(loanDetails.getMonthsToPay()));
         loanDetails.setTotalToPay(loanDetails.getLoanAmount() * (Math.pow(1 + loanDetails.getFeesCharged(), loanDetails.getNumberOfInstallments())));
         loanDetails.setPortionAmount(loanDetails.getTotalToPay() / loanDetails.getNumberOfInstallments());
-        repository.save(loanDetails);
-        return loanDetails;
-    }
-
-    public LoanDetails createLoanDetails(LoanDetails loanDetails) throws DetailsAlreadyRegisteredException {
-
-        verifyIfAlreadyRegistered(loanDetails.getEmail());
         repository.save(loanDetails);
         return loanDetails;
     }
@@ -104,8 +98,8 @@ public class DetailsService {
 
     private void verifyIfAlreadyRegistered(String email) throws DetailsAlreadyRegisteredException{
 
-        LoanDetails existLoanDetails = repository.findByEmail(email);
-        if (existLoanDetails != null){
+        Optional<LoanDetails> existLoanDetails = repository.findByEmail(email);
+        if(existLoanDetails.isPresent()){
             throw new DetailsAlreadyRegisteredException(email);
         }
     }

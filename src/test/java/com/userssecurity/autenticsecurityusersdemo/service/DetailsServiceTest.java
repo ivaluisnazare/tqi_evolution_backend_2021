@@ -3,7 +3,6 @@ package com.userssecurity.autenticsecurityusersdemo.service;
 import com.userssecurity.autenticsecurityusersdemo.builder.DetailsBuilder;
 import static org.hamcrest.MatcherAssert.assertThat;
 import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsAlreadyRegisteredException;
-import com.userssecurity.autenticsecurityusersdemo.mapper.DetailsMapper;
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import com.userssecurity.autenticsecurityusersdemo.repository.LoanDetailsRepository;
 import org.junit.jupiter.api.Test;
@@ -11,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import java.util.Optional;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,8 +19,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class DetailsServiceTest {
 
-    private DetailsMapper detailsMapper = DetailsMapper.INSTANCE;
-
     @Mock
     private LoanDetailsRepository loanDetailsRepository;
 
@@ -28,11 +26,11 @@ public class DetailsServiceTest {
     private DetailsService detailsService;
 
     @Test
-    void whenDetailsInformedThenItShouldBeCreated() {
+    void whenDetailsInformedThenItShouldBeCreated() throws DetailsAlreadyRegisteredException {
 
         LoanDetails detailsBuilder = DetailsBuilder.builder().build().toDetails();
 
-        lenient().when(loanDetailsRepository.findByEmail(detailsBuilder.getEmail())).thenReturn(detailsBuilder);
+        lenient().when(loanDetailsRepository.findByEmail(detailsBuilder.getEmail())).thenReturn(Optional.empty());
 
         LoanDetails createdDetails = detailsService.createDetails(detailsBuilder);
         assertThat(createdDetails.getId(), is(equalTo(detailsBuilder.getId())));
@@ -53,7 +51,7 @@ public class DetailsServiceTest {
     void whenAlreadyRegisteredLoanDetailsInformedThenAnExceptionShouldBeThrown() {
 
         LoanDetails expectDetails = DetailsBuilder.builder().build().toDetails();
-        when(loanDetailsRepository.findByEmail(expectDetails.getEmail())).thenReturn(expectDetails);
-        assertThrows(DetailsAlreadyRegisteredException.class, () -> detailsService.createLoanDetails(expectDetails));
+        when(loanDetailsRepository.findByEmail(expectDetails.getEmail())).thenReturn(Optional.of(expectDetails));
+        assertThrows(DetailsAlreadyRegisteredException.class, () -> detailsService.createDetails(expectDetails));
     }
 }

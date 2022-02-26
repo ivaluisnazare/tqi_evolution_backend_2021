@@ -23,7 +23,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import org.springframework.http.MediaType;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @ExtendWith(MockitoExtension.class)
 public class DetailsControllerTest {
 
@@ -59,7 +58,7 @@ public class DetailsControllerTest {
         LoanDetails details = DetailsBuilder.builder().build().toDetails();
         lenient().when(detailsService.createDetails(details)).thenReturn(details);
 
-        mockMvc.perform(post(DETAILS_API_URL_PATH)
+        this.mockMvc.perform(post(DETAILS_API_URL_PATH)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(details)))
                 .andExpect(status().isCreated());
@@ -115,6 +114,7 @@ public class DetailsControllerTest {
 
     @Test
     void whenDELETEIsCalledWithInvalidIdThenNotFoundStatusIsReturned() throws Exception {
+
 
         lenient().doThrow(DetailsNotFoundException.class).when(detailsService).deleteById(INVALID_BEER_ID);
 

@@ -2,6 +2,12 @@ package com.userssecurity.autenticsecurityusersdemo.service;
 
 import com.userssecurity.autenticsecurityusersdemo.builder.DetailsBuilder;
 import static org.hamcrest.MatcherAssert.assertThat;
+
+import com.userssecurity.autenticsecurityusersdemo.builder.LoanDetailsBuilder;
+import com.userssecurity.autenticsecurityusersdemo.dtos.DetailsDTO;
+import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsAlreadyRegisteredException;
+import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsNotFoundException;
+import com.userssecurity.autenticsecurityusersdemo.mapper.DetailsMapper;
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import com.userssecurity.autenticsecurityusersdemo.repository.LoanDetailsRepository;
 import org.junit.jupiter.api.Test;
@@ -9,13 +15,21 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
+
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.lenient;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.AdditionalMatchers.and;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 
 @ExtendWith(MockitoExtension.class)
 public class DetailsServiceTest {
+
+    private DetailsMapper detailsMapper = DetailsMapper.INSTANCE;
 
     @Mock
     private LoanDetailsRepository loanDetailsRepository;
@@ -24,7 +38,7 @@ public class DetailsServiceTest {
     private DetailsService detailsService;
 
     @Test
-    void whenDetailsInformedThenItShouldBeCreated(){
+    void whenDetailsInformedThenItShouldBeCreated() {
 
         LoanDetails detailsBuilder = DetailsBuilder.builder().build().toDetails();
 
@@ -43,8 +57,13 @@ public class DetailsServiceTest {
         assertThat(createdDetails.getDayOfRequest() , is(equalTo(detailsBuilder.getDayOfRequest())));
         assertThat(createdDetails.getMonthsToPay() , is(equalTo(detailsBuilder.getMonthsToPay())));
         assertThat(createdDetails.getPayDay() , is(equalTo(detailsBuilder.getPayDay())));
+    }
 
+    @Test
+    void whenAlreadyRegisteredLoanDetailsInformedThenAnExceptionShouldBeThrown() {
 
-
+        LoanDetails expectDetails = DetailsBuilder.builder().build().toDetails();
+        when(loanDetailsRepository.findByEmail(expectDetails.getEmail())).thenReturn(expectDetails);
+        assertThrows(DetailsAlreadyRegisteredException.class, () -> detailsService.createLoanDetails(expectDetails));
     }
 }

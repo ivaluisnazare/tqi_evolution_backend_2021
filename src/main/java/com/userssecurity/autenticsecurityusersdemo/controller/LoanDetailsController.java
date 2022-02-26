@@ -1,5 +1,6 @@
 package com.userssecurity.autenticsecurityusersdemo.controller;
 
+import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsAlreadyRegisteredException;
 import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsNotFoundException;
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import com.userssecurity.autenticsecurityusersdemo.service.DetailsService;
@@ -20,7 +21,13 @@ public class LoanDetailsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void postUser(@RequestBody LoanDetails loanDetails){
+    public void postUser(@RequestBody LoanDetails loanDetails) {
+        detailsService.createDetails(loanDetails);
+    }
+
+    @PostMapping("/test")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createLoanDetails(@RequestBody LoanDetails loanDetails) throws DetailsAlreadyRegisteredException{
         detailsService.createDetails(loanDetails);
     }
 
@@ -30,7 +37,7 @@ public class LoanDetailsController {
         return detailsService.getQuery(email);
     }
 
-    @GetMapping("/code/{id}")
+    @GetMapping("/code/{email}/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List getCodeQuery(@PathVariable @Valid Integer id){
         return detailsService.getCodeQuery(id);

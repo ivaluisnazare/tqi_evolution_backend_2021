@@ -3,6 +3,7 @@ package com.userssecurity.autenticsecurityusersdemo.service;
 import com.userssecurity.autenticsecurityusersdemo.builder.DetailsBuilder;
 import static org.hamcrest.MatcherAssert.assertThat;
 import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsAlreadyRegisteredException;
+import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsNotFoundException;
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import com.userssecurity.autenticsecurityusersdemo.repository.LoanDetailsRepository;
 import org.junit.jupiter.api.Test;
@@ -51,7 +52,20 @@ public class DetailsServiceTest {
     void whenAlreadyRegisteredLoanDetailsInformedThenAnExceptionShouldBeThrown() {
 
         LoanDetails expectDetails = DetailsBuilder.builder().build().toDetails();
+
         when(loanDetailsRepository.findByEmail(expectDetails.getEmail())).thenReturn(Optional.of(expectDetails));
+
         assertThrows(DetailsAlreadyRegisteredException.class, () -> detailsService.createDetails(expectDetails));
+    }
+
+    @Test
+    void whenValidEmailIsGivenThenReturnLoanDetails() throws DetailsNotFoundException {
+        LoanDetails findDetails = DetailsBuilder.builder().build().toDetails();
+
+        lenient().when(loanDetailsRepository.findByEmail(findDetails.getEmail())).thenReturn(Optional.of(findDetails));
+
+        LoanDetails foundDetails = detailsService.findByEmail(findDetails.getEmail());
+
+        assertThat(foundDetails, is(equalTo(findDetails)));
     }
 }

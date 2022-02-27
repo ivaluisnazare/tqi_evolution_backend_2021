@@ -1,7 +1,6 @@
 package com.userssecurity.autenticsecurityusersdemo.service;
 
 import java.util.List;
-
 import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsAlreadyRegisteredException;
 import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsNotFoundException;
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
@@ -80,10 +79,16 @@ public class DetailsService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    public LoanDetails findByEmail(String email) throws DetailsNotFoundException{
+        LoanDetails foundDetails = repository.findByEmail(email)
+                .orElseThrow(() -> new DetailsNotFoundException(email));
+        return foundDetails;
+    }
+
     public LoanDetails findById(Integer id) throws DetailsNotFoundException {
-        LoanDetails details = repository.findById(id)
+        LoanDetails foundDetails = repository.findById(id)
                 .orElseThrow(() -> new DetailsNotFoundException(id));
-        return details;
+        return foundDetails;
     }
 
     public void deleteById(Integer id) throws DetailsNotFoundException{
@@ -91,8 +96,8 @@ public class DetailsService {
         repository.deleteById(id.longValue());
     }
 
-    private LoanDetails verifyIfExist(Integer id) throws DetailsNotFoundException{
-        return repository.findById(id)
+    private void verifyIfExist(Integer id) throws DetailsNotFoundException{
+        repository.findById(id)
                 .orElseThrow(() -> new DetailsNotFoundException(id));
     }
 

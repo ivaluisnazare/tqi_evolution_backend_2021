@@ -37,6 +37,11 @@ public class LoanDetailsController {
         return detailsService.getCodeQuery(id);
     }
 
+    @GetMapping("/findBy/{email}")
+    public LoanDetails findByEmail(String email) throws DetailsNotFoundException{
+        return detailsService.findByEmail(email);
+    }
+
     @GetMapping("/findBy/{id}")
     public LoanDetails findById(Integer id) throws DetailsNotFoundException{
         return detailsService.findById(id);
@@ -58,7 +63,6 @@ public class LoanDetailsController {
     public void deleteById(@PathVariable Integer id) throws DetailsNotFoundException {
         detailsService.deleteById(id);
     }
-
     }
 
 

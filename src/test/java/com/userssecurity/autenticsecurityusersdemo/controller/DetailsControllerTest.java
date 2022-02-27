@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class DetailsControllerTest {
 
     private static final String DETAILS_API_URL_PATH = "/details";
-    private static final String DETAILS_FIND_BY_API_URL_PATH = "/details/findBy";
+    private static final String DETAILS_FIND_BY_API_URL_PATH = "/details/findById";
     private static final String DETAILS_DELETE_ID_API_URL_PATH = "/details/delete";
     private static final String DETAILS_DELETE_BY_ID_API_URL_PATH = "/detailsBy/delete";
     private static final Integer INVALID_BEER_ID = 3;

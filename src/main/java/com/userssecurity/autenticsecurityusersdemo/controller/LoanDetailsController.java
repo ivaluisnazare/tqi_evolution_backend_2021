@@ -21,8 +21,14 @@ public class LoanDetailsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public LoanDetails postUser(@RequestBody LoanDetails loanDetails) throws DetailsAlreadyRegisteredException {
+    public LoanDetails postUser(@RequestBody LoanDetails loanDetails){
         return detailsService.createDetails(loanDetails);
+    }
+
+    @PostMapping("/test")
+    @ResponseStatus(HttpStatus.CREATED)
+    public LoanDetails createDetailsTest(LoanDetails loanDetails) throws DetailsAlreadyRegisteredException{
+        return detailsService.createDetailsTest(loanDetails);
     }
 
     @GetMapping("/{email}")
@@ -42,7 +48,7 @@ public class LoanDetailsController {
         return detailsService.findByEmail(email);
     }
 
-    @GetMapping("/findBy/{id}")
+    @GetMapping("/findById/{id}")
     public LoanDetails findById(Integer id) throws DetailsNotFoundException{
         return detailsService.findById(id);
     }

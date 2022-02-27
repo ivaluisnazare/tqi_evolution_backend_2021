@@ -27,7 +27,7 @@ public class DetailsServiceTest {
     private DetailsService detailsService;
 
     @Test
-    void whenDetailsInformedThenItShouldBeCreated() throws DetailsAlreadyRegisteredException {
+    void whenDetailsInformedThenItShouldBeCreated(){
 
         LoanDetails detailsBuilder = DetailsBuilder.builder().build().toDetails();
 
@@ -55,7 +55,7 @@ public class DetailsServiceTest {
 
         when(loanDetailsRepository.findByEmail(expectDetails.getEmail())).thenReturn(Optional.of(expectDetails));
 
-        assertThrows(DetailsAlreadyRegisteredException.class, () -> detailsService.createDetails(expectDetails));
+        assertThrows(DetailsAlreadyRegisteredException.class, () -> detailsService.createDetailsTest(expectDetails));
     }
 
     @Test

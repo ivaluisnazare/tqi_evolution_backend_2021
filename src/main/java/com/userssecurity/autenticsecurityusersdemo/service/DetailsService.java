@@ -22,8 +22,8 @@ public class DetailsService {
     private LoanDetailsRepository repository;
     EntityManager entityManager;
 
-    public LoanDetails createDetails(LoanDetails loanDetails) throws DetailsAlreadyRegisteredException {
-        verifyIfAlreadyRegistered(loanDetails.getEmail());
+    public LoanDetails createDetails(LoanDetails loanDetails){
+
         LocalDate localDate = LocalDate.now();
         loanDetails.setDayOfRequest(localDate);
         loanDetails.setPayDay(loanDetails.getDayOfRequest().plusMonths(loanDetails.getMonthsToPay()));
@@ -33,14 +33,23 @@ public class DetailsService {
         return loanDetails;
     }
 
+    public LoanDetails createDetailsTest(LoanDetails loanDetails) throws DetailsAlreadyRegisteredException{
+
+        verifyIfAlreadyRegistered(loanDetails.getEmail());
+        repository.save(loanDetails);
+        return loanDetails;
+    }
+
     public List getQuery(String email){
-        return entityManager.createQuery("SELECT e.code, e.loanAmount, e.numberOfInstallments FROM LoanDetails e  WHERE e.email = (:email)")
+
+        return entityManager.createQuery("SELECT e.id, e.code, e.loanAmount, e.numberOfInstallments FROM LoanDetails e  WHERE e.email = (:email)")
                 .setParameter("email", email)
                 .setMaxResults(10)
                 .getResultList();
     }
 
     public List getCodeQuery(Integer id){
+
         return entityManager.createQuery("SELECT e.email, e.code, e.wage,  e.loanAmount, e.totalToPay, e.portionAmount, e.numberOfInstallments, e.payDay FROM LoanDetails e  WHERE e.id= (:id)")
                 .setParameter("id", id)
                     .setMaxResults(1)
@@ -48,6 +57,7 @@ public class DetailsService {
     }
 
         public ResponseEntity<LoanDetails> putRequest(Integer id, LoanDetails loanDetails){
+
         Optional<LoanDetails> loanOldDetailsById = repository.findById(id);
         if (loanOldDetailsById.isPresent()) {
             LoanDetails loanDetailsPut = loanOldDetailsById.get();
@@ -70,6 +80,7 @@ public class DetailsService {
     }
 
     public ResponseEntity<Object> DeleteLoanDetailsById(Integer id) {
+
         Optional<LoanDetails> loanDetails = repository.findById(id);
         if(loanDetails.isPresent()){
             repository.delete(loanDetails.get());
@@ -86,6 +97,7 @@ public class DetailsService {
     }
 
     public LoanDetails findById(Integer id) throws DetailsNotFoundException {
+
         LoanDetails foundDetails = repository.findById(id)
                 .orElseThrow(() -> new DetailsNotFoundException(id));
         return foundDetails;
@@ -97,6 +109,7 @@ public class DetailsService {
     }
 
     private void verifyIfExist(Integer id) throws DetailsNotFoundException{
+
         repository.findById(id)
                 .orElseThrow(() -> new DetailsNotFoundException(id));
     }

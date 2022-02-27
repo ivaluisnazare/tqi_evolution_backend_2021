@@ -25,7 +25,12 @@ public class UserService{
         user.setPassword(encoder.encode(pass));
         repository.save(user);
         return user;
-    }}
+    }
+    public User create(User user) {
+        repository.save(user);
+        return user;
+    }
+}
 
 
 

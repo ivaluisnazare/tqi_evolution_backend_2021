@@ -20,7 +20,14 @@ public class UserController {
     public void postUser(@RequestBody User user){
         userService.createUser(user);
     }
+
+
+    @PostMapping("/test")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createUserTest(@RequestBody User user){
+        userService.create(user);
     }
+}
 
 
 

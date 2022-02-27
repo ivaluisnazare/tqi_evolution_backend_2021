@@ -60,6 +60,7 @@ public class DetailsServiceTest {
 
     @Test
     void whenValidEmailIsGivenThenReturnLoanDetails() throws DetailsNotFoundException {
+
         LoanDetails findDetails = DetailsBuilder.builder().build().toDetails();
 
         lenient().when(loanDetailsRepository.findByEmail(findDetails.getEmail())).thenReturn(Optional.of(findDetails));
@@ -67,5 +68,15 @@ public class DetailsServiceTest {
         LoanDetails foundDetails = detailsService.findByEmail(findDetails.getEmail());
 
         assertThat(foundDetails, is(equalTo(findDetails)));
+    }
+
+    @Test
+    void whenNotRegisteredEmailIsGivenThenThrowAnException() {
+
+        LoanDetails findDetails = DetailsBuilder.builder().build().toDetails();
+
+        when(loanDetailsRepository.findByEmail(findDetails.getEmail())).thenReturn(Optional.empty());
+
+        assertThrows(DetailsNotFoundException.class, () -> detailsService.findByEmail(findDetails.getEmail()));
     }
 }

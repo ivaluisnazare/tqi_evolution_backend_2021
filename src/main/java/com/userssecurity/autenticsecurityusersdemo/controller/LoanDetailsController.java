@@ -53,6 +53,11 @@ public class LoanDetailsController {
         return detailsService.findById(id);
     }
 
+    @GetMapping
+    public List<LoanDetails> findAllDetails(){
+        return detailsService.findAllDetails();
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<LoanDetails> putRequest(@PathVariable @Valid Integer id, @RequestBody LoanDetails loanDetails){
         return detailsService.putRequest(id, loanDetails);

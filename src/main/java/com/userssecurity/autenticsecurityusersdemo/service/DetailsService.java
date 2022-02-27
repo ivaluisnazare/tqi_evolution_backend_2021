@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -101,6 +102,10 @@ public class DetailsService {
         LoanDetails foundDetails = repository.findById(id)
                 .orElseThrow(() -> new DetailsNotFoundException(id));
         return foundDetails;
+    }
+
+    public List<LoanDetails> findAllDetails(){
+        return repository.findAll().stream().collect(Collectors.toList());
     }
 
     public void deleteById(Integer id) throws DetailsNotFoundException{

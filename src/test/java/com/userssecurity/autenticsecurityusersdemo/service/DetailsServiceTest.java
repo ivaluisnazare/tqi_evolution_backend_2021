@@ -11,6 +11,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.equalTo;
@@ -78,5 +81,17 @@ public class DetailsServiceTest {
         when(loanDetailsRepository.findByEmail(findDetails.getEmail())).thenReturn(Optional.empty());
 
         assertThrows(DetailsNotFoundException.class, () -> detailsService.findByEmail(findDetails.getEmail()));
+    }
+    @Test
+    void whenListDetailsIsCalledThenReturnAListOfDetails() {
+        LoanDetails loanDetails = DetailsBuilder.builder().build().toDetails();
+
+        lenient().when(loanDetailsRepository.findAll()).thenReturn(Collections.singletonList(loanDetails));
+
+        List<LoanDetails> foundListDetails = detailsService.findAllDetails();
+
+        assertThat(foundListDetails, is(not(empty())));
+        assertThat(foundListDetails.get(0), is(equalTo(loanDetails)));
+
     }
 }

@@ -8,4 +8,5 @@ public class DetailsAlreadyRegisteredException extends  Exception{
 
     public DetailsAlreadyRegisteredException(String email) {
         super(String.format("Details with email %s already registered in the system.", email));
-}}
+}
+}

@@ -48,6 +48,8 @@ public class DetailsServiceTest {
         assertThat(createdDetails.getDayOfRequest() , is(equalTo(detailsBuilder.getDayOfRequest())));
         assertThat(createdDetails.getMonthsToPay() , is(equalTo(detailsBuilder.getMonthsToPay())));
         assertThat(createdDetails.getPayDay() , is(equalTo(detailsBuilder.getPayDay())));
+        verify(loanDetailsRepository, atLeast(1)).save(detailsBuilder);
+
     }
 
     @Test
@@ -58,6 +60,8 @@ public class DetailsServiceTest {
         when(loanDetailsRepository.findByEmail(expectDetails.getEmail())).thenReturn(Optional.of(expectDetails));
 
         assertThrows(DetailsAlreadyRegisteredException.class, () -> detailsService.createDetailsTest(expectDetails));
+        verify(loanDetailsRepository, atLeast(1)).findByEmail(expectDetails.getEmail());
+
     }
 
     @Test
@@ -65,11 +69,12 @@ public class DetailsServiceTest {
 
         LoanDetails findDetails = DetailsBuilder.builder().build().toDetails();
 
-        lenient().when(loanDetailsRepository.findByEmail(findDetails.getEmail())).thenReturn(Optional.of(findDetails));
+        when(loanDetailsRepository.findByEmail(findDetails.getEmail())).thenReturn(Optional.of(findDetails));
 
         LoanDetails foundDetails = detailsService.findByEmail(findDetails.getEmail());
 
         assertThat(foundDetails, is(equalTo(findDetails)));
+        verify(loanDetailsRepository, atLeast(1)).findByEmail(findDetails.getEmail());
     }
 
     @Test
@@ -80,17 +85,53 @@ public class DetailsServiceTest {
         when(loanDetailsRepository.findByEmail(findDetails.getEmail())).thenReturn(Optional.empty());
 
         assertThrows(DetailsNotFoundException.class, () -> detailsService.findByEmail(findDetails.getEmail()));
+        verify(loanDetailsRepository, atLeast(1)).findByEmail(findDetails.getEmail());
     }
+
     @Test
     void whenListDetailsIsCalledThenReturnAListOfDetails() {
         LoanDetails loanDetails = DetailsBuilder.builder().build().toDetails();
 
-        lenient().when(loanDetailsRepository.findAll()).thenReturn(Collections.singletonList(loanDetails));
+        when(loanDetailsRepository.findAll()).thenReturn(Collections.singletonList(loanDetails));
 
         List<LoanDetails> foundListDetails = detailsService.findAllDetails();
 
         assertThat(foundListDetails, is(not(empty())));
         assertThat(foundListDetails.get(0), is(equalTo(loanDetails)));
+        verify(loanDetailsRepository, atLeast(1)).findAll();
+    }
 
+    @Test
+    void whenListDetailsIsCalledThenReturnAnEmptyListOfDetails() {
+        when(loanDetailsRepository.findAll()).thenReturn(Collections.EMPTY_LIST);
+
+        List<LoanDetails> foundListDetails = detailsService.findAllDetails();
+
+        assertThat(foundListDetails, is(empty()));
+        verify(loanDetailsRepository, times(1)).findAll();
+    }
+
+    @Test
+    void whenExclusionIsCalledWithValidIdThenADetailsShouldBeDeleted() throws DetailsNotFoundException{
+
+        LoanDetails expectDeleteDetails = DetailsBuilder.builder().build().toDetails();
+
+        lenient().when(loanDetailsRepository.findById(expectDeleteDetails.getId())).thenReturn(Optional.of(expectDeleteDetails));
+        lenient().doNothing().when(loanDetailsRepository).deleteById(Long.valueOf(expectDeleteDetails.getId()));
+        verify(loanDetailsRepository, atLeast(0)).findById(expectDeleteDetails.getId());
+        verify(loanDetailsRepository, atLeast(0)).deleteById(Long.valueOf(expectDeleteDetails.getId()));
+
+
+    }
+
+    @Test
+    void whenExclusionIsCalledWithInvalidIdThenADetailsShouldBeDeleted() throws DetailsNotFoundException{
+
+        LoanDetails findDetails = DetailsBuilder.builder().build().toDetails();
+
+        when(loanDetailsRepository.findById(findDetails.getId())).thenReturn(Optional.empty());
+
+        assertThrows(DetailsNotFoundException.class, () -> detailsService.deleteById(findDetails.getId()));
+        verify(loanDetailsRepository, atLeast(1)).findById(findDetails.getId());
     }
 }

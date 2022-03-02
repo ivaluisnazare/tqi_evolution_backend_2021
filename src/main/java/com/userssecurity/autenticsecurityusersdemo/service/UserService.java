@@ -1,6 +1,8 @@
 package com.userssecurity.autenticsecurityusersdemo.service;
 
+import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsAlreadyRegisteredException;
 import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsNotFoundException;
+import com.userssecurity.autenticsecurityusersdemo.exceptions.UserAlreadyRegisteredException;
 import com.userssecurity.autenticsecurityusersdemo.exceptions.UserNotFoundException;
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import com.userssecurity.autenticsecurityusersdemo.models.User;
@@ -11,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -29,8 +32,13 @@ public class UserService{
         repository.save(user);
         return user;
     }
-    public User create(User user) {
+    public User create(User user){
+        repository.save(user);
+        return user;
+    }
 
+    public User createTest(User user) throws UserAlreadyRegisteredException {
+        verifyIfAlreadyRegistered(user.getId());
         repository.save(user);
         return user;
     }
@@ -40,6 +48,13 @@ public class UserService{
         User foundUser = repository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
         return foundUser;
+    }
+
+    private void verifyIfAlreadyRegistered(Integer id) throws UserAlreadyRegisteredException {
+        Optional<User> existUser = repository.findById(id);
+        if(existUser.isPresent()){
+            throw new UserAlreadyRegisteredException(id);
+        }
     }
 }
 

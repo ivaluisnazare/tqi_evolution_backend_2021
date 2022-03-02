@@ -49,7 +49,6 @@ public class DetailsServiceTest {
         assertThat(createdDetails.getMonthsToPay() , is(equalTo(detailsBuilder.getMonthsToPay())));
         assertThat(createdDetails.getPayDay() , is(equalTo(detailsBuilder.getPayDay())));
         verify(loanDetailsRepository, atLeast(1)).save(detailsBuilder);
-
     }
 
     @Test
@@ -61,7 +60,6 @@ public class DetailsServiceTest {
 
         assertThrows(DetailsAlreadyRegisteredException.class, () -> detailsService.createDetailsTest(expectDetails));
         verify(loanDetailsRepository, atLeast(1)).findByEmail(expectDetails.getEmail());
-
     }
 
     @Test
@@ -120,8 +118,6 @@ public class DetailsServiceTest {
         lenient().doNothing().when(loanDetailsRepository).deleteById(Long.valueOf(expectDeleteDetails.getId()));
         verify(loanDetailsRepository, atLeast(0)).findById(expectDeleteDetails.getId());
         verify(loanDetailsRepository, atLeast(0)).deleteById(Long.valueOf(expectDeleteDetails.getId()));
-
-
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.userssecurity.autenticsecurityusersdemo.controller;
 
 import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsNotFoundException;
+import com.userssecurity.autenticsecurityusersdemo.exceptions.UserAlreadyRegisteredException;
 import com.userssecurity.autenticsecurityusersdemo.exceptions.UserNotFoundException;
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import com.userssecurity.autenticsecurityusersdemo.models.User;
@@ -25,8 +26,13 @@ public class UserController {
 
     @PostMapping("/test")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createUserTest(@RequestBody User user){
+    public void createUserTest(@RequestBody User user) {
         userService.create(user);
+    }
+
+    @PostMapping("/user/test")
+    public void  createTest(@RequestBody User user) throws UserAlreadyRegisteredException {
+        userService.createTest(user);
     }
 
     @GetMapping("/findById/{id}")

@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -45,6 +46,20 @@ public class UserService{
         return user;
     }
 
+    public List<User> getAllUsers(){
+        List<User> getAll = repository.findAll();
+        return getAll;
+    }
+
+    public void deleteById(Integer id) throws UserNotFoundException {
+        verifyIfExist(id);
+        repository.deleteById(id);
+    }
+
+    public void deleteAllUsers(){
+        repository.deleteAll();
+    }
+
     public User putUser(User user, Integer id) {
         Optional<User> oldUser = repository.findById(id);
         if (oldUser.isPresent()) {
@@ -66,6 +81,11 @@ public class UserService{
         User foundUser = repository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
         return foundUser;
+    }
+
+    private void verifyIfExist(Integer id) throws UserNotFoundException{
+        repository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     private void verifyIfAlreadyRegistered(Integer id) throws UserAlreadyRegisteredException {

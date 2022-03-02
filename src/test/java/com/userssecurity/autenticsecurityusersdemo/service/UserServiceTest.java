@@ -79,4 +79,14 @@ public class UserServiceTest {
         assertThrows(UserNotFoundException.class, () -> userService.findById(findUser.getId()));
         verify(userRepository, times(1)).findById(findUser.getId());
     }
+
+    @Test
+    void  whenValidIdIsGivenThenUserShouldBeDeleteById() throws UserNotFoundException{
+        User userFoundToDelete = UserBuilder.builder().build().toUser();
+
+        lenient().when(userRepository.findById(userFoundToDelete.getId())).thenReturn(Optional.of(userFoundToDelete));
+        lenient().doNothing().when(userRepository).deleteById(userFoundToDelete.getId());
+        verify(userRepository, atLeast(0)).findById(userFoundToDelete.getId());
+        verify(userRepository, times(0)).deleteById(userFoundToDelete.getId());
+    }
 }

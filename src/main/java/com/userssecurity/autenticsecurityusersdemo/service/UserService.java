@@ -1,10 +1,7 @@
 package com.userssecurity.autenticsecurityusersdemo.service;
 
-import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsAlreadyRegisteredException;
-import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsNotFoundException;
 import com.userssecurity.autenticsecurityusersdemo.exceptions.UserAlreadyRegisteredException;
 import com.userssecurity.autenticsecurityusersdemo.exceptions.UserNotFoundException;
-import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import com.userssecurity.autenticsecurityusersdemo.models.User;
 import com.userssecurity.autenticsecurityusersdemo.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -26,12 +23,12 @@ public class UserService{
     EntityManager entityManager;
 
     public User createUser(User user) {
-
         String pass = user.getPassword();
         user.setPassword(encoder.encode(pass));
         repository.save(user);
         return user;
     }
+
     public User create(User user){
         repository.save(user);
         return user;
@@ -43,8 +40,29 @@ public class UserService{
         return user;
     }
 
-    public User findById(Integer id) throws UserNotFoundException {
+    public User getUser(String email){
+        User user =  repository.findByEmail(email);
+        return user;
+    }
 
+    public User putUser(User user, Integer id) {
+        Optional<User> oldUser = repository.findById(id);
+        if (oldUser.isPresent()) {
+            User newUser = oldUser.get();
+            newUser.setId(user.getId());
+            newUser.setEmail(user.getEmail());
+            newUser.setPassword(encoder.encode(user.getPassword()));
+            newUser.setName(user.getName());
+            newUser.setCpf(user.getCpf());
+            newUser.setRg(user.getRg());
+            newUser.setAddress(user.getAddress());
+            newUser.setRoles(user.getRoles());
+            repository.save(newUser);
+        }
+        return user;
+    }
+
+    public User findById(Integer id) throws UserNotFoundException {
         User foundUser = repository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
         return foundUser;

@@ -47,6 +47,7 @@ public class UserServiceTest {
 
     @Test
     void whenAlreadyRegisteredUserInformedThenAnExceptionShouldBeThrown() {
+
         User expectUser = UserBuilder.builder().build().toUser();
 
         when(userRepository.findById(expectUser.getId())).thenReturn(Optional.of(expectUser));
@@ -70,6 +71,7 @@ public class UserServiceTest {
 
     @Test
     void whenInvalidIdIsGivenThenReturnThrows() throws UserNotFoundException {
+
         User findUser = UserBuilder.builder().build().toUser();
 
         when(userRepository.findById(findUser.getId())).thenReturn(Optional.empty());

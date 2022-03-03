@@ -9,7 +9,6 @@ import com.userssecurity.autenticsecurityusersdemo.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.control.MappingControl;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -17,8 +16,8 @@ import java.util.Optional;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Service's class test")
@@ -91,7 +90,12 @@ public class UserServiceTest {
 
         User newUser = userService.create(oldUserChanged);
         lenient().when(userRepository.findById(newUser.getId())).thenReturn(Optional.of(newUser));
+        assertEquals(newUser.getName() , putUser.getName());
         assertThat(userRepository.findByEmail(newUser.getEmail()), is(equalTo(userRepository.findByEmail(putUser.getEmail()))));
+        assertNotEquals(userRepository.findById(newUser.getId()), userRepository.findById(putUser.getId()));
+        verify(userRepository, times(2)).save(newUser);
+        verify(userRepository, times(1)).findById(newUser.getId());
+        verify(userRepository, times(1)).findById(oldUserChanged.getId());
 }
 
     @Test

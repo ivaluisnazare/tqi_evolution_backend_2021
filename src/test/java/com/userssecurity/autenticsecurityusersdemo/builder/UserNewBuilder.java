@@ -14,7 +14,7 @@ import java.util.List;
 public class UserNewBuilder {
 
     @Builder.Default
-    private Integer id = 1;
+    private Integer id = 2;
 
     @Builder.Default
     private String email =  "helobella@gmail.com";
@@ -23,7 +23,7 @@ public class UserNewBuilder {
     private String password = "hello0132";
 
     @Builder.Default
-    private String name = "Izabella";
+    private String name = "Hello";
 
     @Builder.Default
     private String cpf = "77872339587";

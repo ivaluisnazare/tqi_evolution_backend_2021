@@ -1,6 +1,7 @@
 package com.userssecurity.autenticsecurityusersdemo.service;
 
 import com.userssecurity.autenticsecurityusersdemo.builder.UserBuilder;
+import com.userssecurity.autenticsecurityusersdemo.builder.UserNewBuilder;
 import com.userssecurity.autenticsecurityusersdemo.exceptions.UserAlreadyRegisteredException;
 import com.userssecurity.autenticsecurityusersdemo.exceptions.UserNotFoundException;
 import com.userssecurity.autenticsecurityusersdemo.models.User;
@@ -8,6 +9,7 @@ import com.userssecurity.autenticsecurityusersdemo.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.control.MappingControl;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -71,18 +73,26 @@ public class UserServiceTest {
         verify(userRepository, atLeast(1)).findById(findUser.getId());
     }
 
-//    @Test
-//    void whenValidIdIsGivenShouldBePutUser() throws UserNotFoundException{
-//
-//        User OldUser = UserBuilder.builder().build().toUser();
-//        User newUser = UserNewBuilder.builder().build().toNewUser();
-//
-//        doNothing().when()
-//
-//
-//
-//
-//    }
+    @Test
+    void whenCanToUserPutUserAndCreateNewUser() throws UserNotFoundException{
+
+        User user = UserBuilder.builder().build().toUser();
+        User putUser = UserNewBuilder.builder().build().toNewUser();
+        User oldUserChanged = userService.create(user);
+        lenient().when(userRepository.findById(oldUserChanged.getId())).thenReturn(Optional.of(oldUserChanged));
+
+        oldUserChanged.setEmail(putUser.getEmail());
+        oldUserChanged.setPassword(putUser.getPassword());
+        oldUserChanged.setName(putUser.getName());
+        oldUserChanged.setCpf(putUser.getCpf());
+        oldUserChanged.setRg(putUser.getRg());
+        oldUserChanged.setAddress(putUser.getAddress());
+        oldUserChanged.setRoles(putUser.getRoles());
+
+        User newUser = userService.create(oldUserChanged);
+        lenient().when(userRepository.findById(newUser.getId())).thenReturn(Optional.of(newUser));
+        assertThat(userRepository.findByEmail(newUser.getEmail()), is(equalTo(userRepository.findByEmail(putUser.getEmail()))));
+}
 
     @Test
     void whenInvalidIdIsGivenThenReturnThrows() throws UserNotFoundException {

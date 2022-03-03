@@ -5,6 +5,7 @@ import com.userssecurity.autenticsecurityusersdemo.exceptions.UserAlreadyRegiste
 import com.userssecurity.autenticsecurityusersdemo.exceptions.UserNotFoundException;
 import com.userssecurity.autenticsecurityusersdemo.models.User;
 import com.userssecurity.autenticsecurityusersdemo.repository.UserRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,6 +19,7 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("Service's class test")
 public class UserServiceTest {
 
     @Mock
@@ -69,6 +71,19 @@ public class UserServiceTest {
         verify(userRepository, atLeast(1)).findById(findUser.getId());
     }
 
+//    @Test
+//    void whenValidIdIsGivenShouldBePutUser() throws UserNotFoundException{
+//
+//        User OldUser = UserBuilder.builder().build().toUser();
+//        User newUser = UserNewBuilder.builder().build().toNewUser();
+//
+//        doNothing().when()
+//
+//
+//
+//
+//    }
+
     @Test
     void whenInvalidIdIsGivenThenReturnThrows() throws UserNotFoundException {
 
@@ -81,12 +96,22 @@ public class UserServiceTest {
     }
 
     @Test
-    void  whenValidIdIsGivenThenUserShouldBeDeleteById() throws UserNotFoundException{
+    void  whenValidIdIsGivenThenUserShouldBeDeletedById() throws UserNotFoundException{
         User userFoundToDelete = UserBuilder.builder().build().toUser();
 
         lenient().when(userRepository.findById(userFoundToDelete.getId())).thenReturn(Optional.of(userFoundToDelete));
         lenient().doNothing().when(userRepository).deleteById(userFoundToDelete.getId());
-        verify(userRepository, atLeast(0)).findById(userFoundToDelete.getId());
+        verify(userRepository, times(0)).findById(userFoundToDelete.getId());
         verify(userRepository, times(0)).deleteById(userFoundToDelete.getId());
+    }
+
+    @Test
+    void whenInvalidIdIsGivenThenUserNotShouldBeDeletedById() throws UserNotFoundException{
+        User userFoundToBeDeleted = UserBuilder.builder().build().toUser();
+
+        when(userRepository.findById(userFoundToBeDeleted.getId())).thenReturn(Optional.empty());
+        assertThrows(UserNotFoundException.class, () -> userService.deleteById(userFoundToBeDeleted.getId()));
+        verify(userRepository, times(1)).findById(userFoundToBeDeleted.getId());
+        verify(userRepository, times(0)).deleteById(userFoundToBeDeleted.getId());
     }
 }

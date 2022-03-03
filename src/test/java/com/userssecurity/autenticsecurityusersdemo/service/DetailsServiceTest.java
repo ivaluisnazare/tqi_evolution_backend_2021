@@ -121,7 +121,7 @@ public class DetailsServiceTest {
     }
 
     @Test
-    void whenExclusionIsCalledWithInvalidIdThenADetailsShouldBeDeleted() throws DetailsNotFoundException{
+    void whenExclusionIsCalledWithInvalidIdThenADetailsNotShouldBeDeleted() throws DetailsNotFoundException{
 
         LoanDetails findDetails = DetailsBuilder.builder().build().toDetails();
 

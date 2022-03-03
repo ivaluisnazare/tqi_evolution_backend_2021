@@ -6,6 +6,7 @@ import com.userssecurity.autenticsecurityusersdemo.exceptions.DetailsNotFoundExc
 import com.userssecurity.autenticsecurityusersdemo.models.LoanDetails;
 import com.userssecurity.autenticsecurityusersdemo.repository.LoanDetailsRepository;
 import com.userssecurity.autenticsecurityusersdemo.service.DetailsService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +26,7 @@ import java.util.Optional;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("Controller's class test")
 public class DetailsControllerTest {
 
     private static final String DETAILS_API_URL_PATH = "/details";

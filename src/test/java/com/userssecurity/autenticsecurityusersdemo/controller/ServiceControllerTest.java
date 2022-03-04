@@ -56,6 +56,18 @@ public class ServiceControllerTest {
                         .content(asJsonString(user)))
                 .andExpect(status().isCreated());
     }
+
+    @Test
+    void whenPOSTUserIsCalledWithoutRequiredFieldThenAnErrorIsReturned() throws Exception{
+
+        User user = UserBuilder.builder().build().toUser();
+        user.setEmail(null);
+
+        this.mockMvc.perform(post(USERS_API_URL_PATH)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(user.getName())))
+                .andExpect(status().isBadRequest());
+    }
     }
 
 

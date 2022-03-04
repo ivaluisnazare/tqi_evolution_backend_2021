@@ -85,7 +85,7 @@ public class DetailsControllerTest {
 
         LoanDetails loanDetails = DetailsBuilder.builder().build().toDetails();
 
-        lenient().when(loanDetailsRepository.findByEmail(loanDetails.getEmail())).thenReturn(Optional.empty());
+        lenient().when(loanDetailsRepository.findByEmail(loanDetails.getEmail())).thenReturn(Optional.of(loanDetails));
 
         mockMvc.perform(MockMvcRequestBuilders.get(DETAILS_API_URL_PATH + "/" + loanDetails.getEmail())
                         .contentType(MediaType.APPLICATION_JSON))

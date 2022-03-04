@@ -14,17 +14,24 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import java.util.Optional;
+
 import static com.userssecurity.autenticsecurityusersdemo.utils.JsonConvertionUtilsUser.asJsonString;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Service's class test")
-public class ServiceControllerTest {
+public class UserControllerTest {
+
 
     private static final String USERS_API_URL_PATH = "/users";
 
@@ -32,6 +39,9 @@ public class ServiceControllerTest {
 
     @Mock
     private UserService userService;
+
+    @Mock
+    private UserRepository userRepository;
 
     @InjectMocks
     private UserController userController;
@@ -65,9 +75,19 @@ public class ServiceControllerTest {
 
         this.mockMvc.perform(post(USERS_API_URL_PATH)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(user.getName())))
+                        .content(asJsonString(user.getEmail())))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void whenUserIsCalledWithValidEmailThenOkStatusIsReturned() throws Exception {
+
+        User user = UserBuilder.builder().build().toUser();
+        lenient().when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get(USERS_API_URL_PATH + "/" + user.getEmail())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(user)))
+                .andExpect(status().isOk());
     }
-
-
+}

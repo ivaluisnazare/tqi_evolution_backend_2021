@@ -1,6 +1,7 @@
 package com.userssecurity.autenticsecurityusersdemo.controller;
 
 import com.userssecurity.autenticsecurityusersdemo.builder.UserBuilder;
+import com.userssecurity.autenticsecurityusersdemo.exceptions.UserNotFoundException;
 import com.userssecurity.autenticsecurityusersdemo.models.User;
 import com.userssecurity.autenticsecurityusersdemo.repository.UserRepository;
 import com.userssecurity.autenticsecurityusersdemo.service.UserService;
@@ -18,8 +19,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import static com.userssecurity.autenticsecurityusersdemo.utils.JsonConvertionUtilsUser.asJsonString;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,9 +28,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("Service's class test")
 public class UserControllerTest {
 
-
     private static final String USERS_API_URL_PATH = "/users";
     private static final String USER_DELETE_BY_ID_API_URL_PATH = "/users/deleteById";
+    private static final Integer INVALID_USER_ID = 3;
 
     private MockMvc mockMvc;
 
@@ -62,6 +62,7 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(user)))
                 .andExpect(status().isCreated());
+        verify(userService, times(1)).createUser(user);
     }
 
     @Test
@@ -74,6 +75,7 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(user.getEmail())))
                 .andExpect(status().isBadRequest());
+        verify(userService, times(0)).createUser(user);
     }
 
     @Test
@@ -86,15 +88,29 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(user)))
                 .andExpect(status().isOk());
+        verify(userService, times(1)).getUser(user.getEmail());
     }
+
     @Test
-    void whenUserCalledWithValidIdThenNoContentStatusIsReturnedAndDelete() throws Exception {
+    void whenDeleteUserCalledWithValidIdThenNoContentStatusIsReturned() throws Exception {
         User user = UserBuilder.builder().build().toUser();
 
-        lenient().doNothing().when(userRepository).deleteById(user.getId());
+        doNothing().when(userService).deleteById(user.getId());
 
         this.mockMvc.perform(MockMvcRequestBuilders.delete(USER_DELETE_BY_ID_API_URL_PATH + "/" + user.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
+        verify(userService, times(1)).deleteById(user.getId());
+    }
+
+    @Test
+    void whenDeleteUserCalledWithInvalidIdThenNoContentStatusIsReturned() throws Exception {
+
+        doThrow(UserNotFoundException.class).when(userService).deleteById(INVALID_USER_ID);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.delete(USER_DELETE_BY_ID_API_URL_PATH + "/" + INVALID_USER_ID)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+        verify(userService, times(1)).deleteById(INVALID_USER_ID);
     }
 }

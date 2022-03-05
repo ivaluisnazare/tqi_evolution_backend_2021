@@ -14,13 +14,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
-
-import java.util.Optional;
-
 import static com.userssecurity.autenticsecurityusersdemo.utils.JsonConvertionUtilsUser.asJsonString;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
@@ -34,6 +30,7 @@ public class UserControllerTest {
 
 
     private static final String USERS_API_URL_PATH = "/users";
+    private static final String USER_DELETE_BY_ID_API_URL_PATH = "/users/deleteById";
 
     private MockMvc mockMvc;
 
@@ -89,5 +86,15 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(user)))
                 .andExpect(status().isOk());
+    }
+    @Test
+    void whenUserCalledWithValidIdThenNoContentStatusIsReturnedAndDelete() throws Exception {
+        User user = UserBuilder.builder().build().toUser();
+
+        lenient().doNothing().when(userRepository).deleteById(user.getId());
+
+        this.mockMvc.perform(MockMvcRequestBuilders.delete(USER_DELETE_BY_ID_API_URL_PATH + "/" + user.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
     }
 }
